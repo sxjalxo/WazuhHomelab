@@ -1,0 +1,8 @@
+# Source: Ubuntu endpoint VM (192.168.56.104), 2026-11-09.
+
+ubuntu@ubuntu:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 24.04.5 LTS
+Release:        24.04
+Codename:       noble

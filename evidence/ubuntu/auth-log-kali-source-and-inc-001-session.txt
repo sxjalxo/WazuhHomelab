@@ -1,0 +1,27 @@
+# Source: Ubuntu endpoint (192.168.56.104), captured 2026-11-09. Log timestamps are UTC.
+# Every auth.log line from the Kali source IP, plus every line of the INC-001 sshd session (PID 2296).
+
+ubuntu@ubuntu:~$ sudo grep -E 'sshd\[2296\]|192\.168\.56\.105' /var/log/auth.log
+2026-11-09T10:06:04.293577+00:00 ubuntu sshd[1606]: Connection closed by 192.168.56.105 port 46138
+2026-11-09T10:24:00.848294+00:00 ubuntu sshd[2091]: Accepted password for ubuntu from 192.168.56.105 port 33832 ssh2
+2026-11-09T10:24:06.444557+00:00 ubuntu sshd[2187]: Received disconnect from 192.168.56.105 port 33832:11: disconnected by user
+2026-11-09T10:24:06.444726+00:00 ubuntu sshd[2187]: Disconnected from user ubuntu 192.168.56.105 port 33832
+2026-11-09T10:26:23.228711+00:00 ubuntu sshd[2281]: Connection closed by 192.168.56.105 port 42743
+2026-11-09T10:26:23.267249+00:00 ubuntu sshd[2282]: banner exchange: Connection from 192.168.56.105 port 33160: could not read protocol version
+2026-11-09T10:26:23.267328+00:00 ubuntu sshd[2283]: banner exchange: Connection from 192.168.56.105 port 33172: could not read protocol version
+2026-11-09T10:26:23.289114+00:00 ubuntu sshd[2284]: Unable to negotiate with 192.168.56.105 port 33184: no matching host key type found. Their offer: ssh-dss [preauth]
+2026-11-09T10:26:23.320722+00:00 ubuntu sshd[2286]: Unable to negotiate with 192.168.56.105 port 33188: no matching host key type found. Their offer: ssh-rsa [preauth]
+2026-11-09T10:26:23.348740+00:00 ubuntu sshd[2288]: Connection closed by 192.168.56.105 port 33194 [preauth]
+2026-11-09T10:26:23.369165+00:00 ubuntu sshd[2290]: Unable to negotiate with 192.168.56.105 port 33208: no matching host key type found. Their offer: ecdsa-sha2-nistp384 [preauth]
+2026-11-09T10:26:23.397398+00:00 ubuntu sshd[2292]: Unable to negotiate with 192.168.56.105 port 33220: no matching host key type found. Their offer: ecdsa-sha2-nistp521 [preauth]
+2026-11-09T10:26:23.430301+00:00 ubuntu sshd[2294]: Connection closed by 192.168.56.105 port 33222 [preauth]
+2026-11-09T10:26:43.235357+00:00 ubuntu sshd[2296]: Invalid user invaliduser from 192.168.56.105 port 40492
+2026-11-09T10:26:47.640371+00:00 ubuntu sshd[2296]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-09T10:26:47.640592+00:00 ubuntu sshd[2296]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-09T10:26:49.595637+00:00 ubuntu sshd[2296]: Failed password for invalid user invaliduser from 192.168.56.105 port 40492 ssh2
+2026-11-09T10:26:53.186712+00:00 ubuntu sshd[2296]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-09T10:26:55.296677+00:00 ubuntu sshd[2296]: Failed password for invalid user invaliduser from 192.168.56.105 port 40492 ssh2
+2026-11-09T10:26:57.818377+00:00 ubuntu sshd[2296]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-09T10:26:59.476686+00:00 ubuntu sshd[2296]: Failed password for invalid user invaliduser from 192.168.56.105 port 40492 ssh2
+2026-11-09T10:27:00.810978+00:00 ubuntu sshd[2296]: Connection closed by invalid user invaliduser 192.168.56.105 port 40492 [preauth]
+2026-11-09T10:27:00.811064+00:00 ubuntu sshd[2296]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105

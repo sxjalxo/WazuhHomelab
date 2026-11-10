@@ -1,0 +1,24 @@
+# Source: Windows 11 host, elevated PowerShell, 2026-11-09.
+
+PS C:\Windows\system32> Sysmon64.exe -c
+
+
+System Monitor v15.22 - System activity monitor
+By Mark Russinovich and Thomas Garnier
+Copyright (C) 2014-2026 Microsoft Corporation
+Using libxml2. libxml2 is Copyright (C) 1998-2012 Daniel Veillard. All Rights Reserved.
+Sysinternals - www.sysinternals.com
+
+Current configuration:
+ - Service name:                  Sysmon64
+ - Driver name:                   SysmonDrv
+ - Config file:                   "C:\Program Files\Sysmon\Sysmon64.exe" -accepteula -i
+
+ - HashingAlgorithms:             SHA256
+ - Network connection:            disabled
+ - Archive Directory:             -
+ - Image loading:                 disabled
+ - CRL checking:                  enabled
+ - DNS lookup:                    enabled
+
+No rules installed

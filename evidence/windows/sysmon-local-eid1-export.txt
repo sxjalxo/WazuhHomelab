@@ -1,0 +1,170 @@
+# Source: Windows 11 host, PowerShell (elevated). Export of 10 Sysmon Event ID 1 events, captured 2026-11-09 ~11:45 UTC.
+# Converted from UTF-16LE to UTF-8 for readability; content otherwise unchanged except redactions:
+# the Windows computer name and Claude app per-session handle values are blacked out (█). Routine host activity (git/conhost), not a simulation.
+
+
+TimeCreated : 09-11-2026 17:15:20
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:45:20.494
+              ProcessGuid: {f791f99d-b250-6af1-8b05-00000000f903}
+              ProcessId: 10216
+              Image: C:\Program Files\Git\mingw64\bin\git.exe
+              FileVersion: 2.55.0.windows.2
+              Description: Git for Windows
+              Product: Git
+              Company: The Git Development Community
+              OriginalFileName: git.exe
+              CommandLine: git.exe -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c core.hooksPath=\\.\NUL -c filter.lfs.clean= -c 
+              filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c status.submoduleSummary=false -c submodule.recurse=false -c 
+              log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url origin
+              CurrentDirectory: E:\Projects\Portfolio\
+              User: ███████████████\Sujal
+              LogonGuid: {f791f99d-906a-6af1-83b6-180000000000}
+              LogonId: 0x18B683
+              TerminalSessionId: 1
+              IntegrityLevel: Medium
+              Hashes: SHA256=77965C1FFD7D5D0F7D55DDBEC10AD540EFA61E58F36EAE565CDE0F36FAB8FE53
+              ParentProcessGuid: {f791f99d-b250-6af1-8705-00000000f903}
+              ParentProcessId: 16208
+              ParentImage: C:\Program Files\Git\cmd\git.exe
+              ParentCommandLine: "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c 
+              core.hooksPath=\\.\NUL -c filter.lfs.clean= -c filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c 
+              status.submoduleSummary=false -c submodule.recurse=false -c log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url 
+              origin
+              ParentUser: ███████████████\Sujal
+
+TimeCreated : 09-11-2026 17:15:20
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:45:20.492
+              ProcessGuid: {f791f99d-b250-6af1-8a05-00000000f903}
+              ProcessId: 11700
+              Image: C:\Program Files\Git\mingw64\bin\git.exe
+              FileVersion: 2.55.0.windows.2
+              Description: Git for Windows
+              Product: Git
+              Company: The Git Development Community
+              OriginalFileName: git.exe
+              CommandLine: git.exe -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c core.hooksPath=\\.\NUL -c filter.lfs.clean= -c 
+              filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c status.submoduleSummary=false -c submodule.recurse=false -c 
+              log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url origin
+              CurrentDirectory: E:\Projects\SIEMLite\
+              User: ███████████████\Sujal
+              LogonGuid: {f791f99d-906a-6af1-83b6-180000000000}
+              LogonId: 0x18B683
+              TerminalSessionId: 1
+              IntegrityLevel: Medium
+              Hashes: SHA256=77965C1FFD7D5D0F7D55DDBEC10AD540EFA61E58F36EAE565CDE0F36FAB8FE53
+              ParentProcessGuid: {f791f99d-b250-6af1-8605-00000000f903}
+              ParentProcessId: 20796
+              ParentImage: C:\Program Files\Git\cmd\git.exe
+              ParentCommandLine: "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c 
+              core.hooksPath=\\.\NUL -c filter.lfs.clean= -c filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c 
+              status.submoduleSummary=false -c submodule.recurse=false -c log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url 
+              origin
+              ParentUser: ███████████████\Sujal
+
+TimeCreated : 09-11-2026 17:15:20
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:45:20.477
+              ProcessGuid: {f791f99d-b250-6af1-8905-00000000f903}
+              ProcessId: 20500
+              Image: C:\Windows\System32\conhost.exe
+              FileVersion: 10.0.26100.9549 (WinBuild.160101.0800)
+              Description: Console Window Host
+              Product: Microsoft® Windows® Operating System
+              Company: Microsoft Corporation
+              OriginalFileName: CONHOST.EXE
+              CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+              CurrentDirectory: C:\Windows
+              User: ███████████████\Sujal
+              LogonGuid: {f791f99d-906a-6af1-83b6-180000000000}
+              LogonId: 0x18B683
+              TerminalSessionId: 1
+              IntegrityLevel: Medium
+              Hashes: SHA256=C86146188B78E484F32CC29E2331689659943B47689A85570342044F499938AC
+              ParentProcessGuid: {f791f99d-b250-6af1-8705-00000000f903}
+              ParentProcessId: 16208
+              ParentImage: C:\Program Files\Git\cmd\git.exe
+              ParentCommandLine: "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c 
+              core.hooksPath=\\.\NUL -c filter.lfs.clean= -c filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c 
+              status.submoduleSummary=false -c submodule.recurse=false -c log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url 
+              origin
+              ParentUser: ███████████████\Sujal
+
+TimeCreated : 09-11-2026 17:15:20
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:45:20.473
+              ProcessGuid: {f791f99d-b250-6af1-8805-00000000f903}
+              ProcessId: 7896
+              Image: C:\Windows\System32\conhost.exe
+              FileVersion: 10.0.26100.9549 (WinBuild.160101.0800)
+              Description: Console Window Host
+              Product: Microsoft® Windows® Operating System
+              Company: Microsoft Corporation
+              OriginalFileName: CONHOST.EXE
+              CommandLine: \??\C:\Windows\system32\conhost.exe 0xffffffff -ForceV1
+              CurrentDirectory: C:\Windows
+              User: ███████████████\Sujal
+              LogonGuid: {f791f99d-906a-6af1-83b6-180000000000}
+              LogonId: 0x18B683
+              TerminalSessionId: 1
+              IntegrityLevel: Medium
+              Hashes: SHA256=C86146188B78E484F32CC29E2331689659943B47689A85570342044F499938AC
+              ParentProcessGuid: {f791f99d-b250-6af1-8605-00000000f903}
+              ParentProcessId: 20796
+              ParentImage: C:\Program Files\Git\cmd\git.exe
+              ParentCommandLine: "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c 
+              core.hooksPath=\\.\NUL -c filter.lfs.clean= -c filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c 
+              status.submoduleSummary=false -c submodule.recurse=false -c log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url 
+              origin
+              ParentUser: ███████████████\Sujal
+
+TimeCreated : 09-11-2026 17:15:20
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:45:20.473
+              ProcessGuid: {f791f99d-b250-6af1-8705-00000000f903}
+              ProcessId: 16208
+              Image: C:\Program Files\Git\cmd\git.exe
+              FileVersion: 2.55.0.windows.2
+              Description: Git for Windows
+              Product: Git
+              Company: The Git Development Community
+              OriginalFileName: git.exe
+              CommandLine: "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false -c safe.directory=* -c core.fsmonitor= -c branch.autoSetupMerge=false -c core.useReplaceRefs=false -c 
+              core.hooksPath=\\.\NUL -c filter.lfs.clean= -c filter.lfs.smudge= -c filter.lfs.process= -c filter.lfs.required=false -c diff.ignoreSubmodules=dirty -c diff.submodule=short -c 
+              status.submoduleSummary=false -c submodule.recurse=false -c log.showSignature=false -c alias.remote-denied_by_claude_desktop.command= -c help.autocorrect=0 -c core.splitIndex=false remote get-url 
+              origin
+              CurrentDirectory: E:\Projects\Portfolio\
+              User: ███████████████\Sujal
+              LogonGuid: {f791f99d-906a-6af1-83b6-180000000000}
+              LogonId: 0x18B683
+              TerminalSessionId: 1
+              IntegrityLevel: Medium
+              Hashes: SHA256=22FEAD8244EF3A7225FB800099A4E43ECA8BCEC0466774917669599C2F19A05A
+              ParentProcessGuid: {f791f99d-a108-6af1-3803-00000000f903}
+              ParentProcessId: 18672
+              ParentImage: C:\Program Files\WindowsApps\Claude_4.23118.0.0_x64__pzs8sxrjxfjjc\app\claude.exe
+              ParentCommandLine: "C:\Program Files\WindowsApps\Claude_4.23118.0.0_x64__pzs8sxrjxfjjc\app\Claude.exe" --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US 
+              --service-sandbox-type=none --video-capture-use-gpu-memory-buffer --user-data-dir="C:\Users\Sujal\AppData\Roaming\Claude" 
+              --standard-schemes=cowork-artifact,cowork-file,claude-media,claude-simulator,app,claude-mcp-app,cowork-artifact-read 
+              --secure-schemes=cowork-artifact,cowork-file,claude-media,claude-simulator,app,claude-mcp-app,cowork-artifact-read,sentry-ipc --bypasscsp-schemes=claude-media,claude-simulator,sentry-ipc 
+              --cors-schemes=claude-simulator,cowork-artifact-read,sentry-ipc --fetch-schemes=cowork-artifact,cowork-file,claude-simulator,app,cowork-artifact-read,sentry-ipc --service-worker-schemes=app 
+              --streaming-schemes=cowork-artifact,cowork-file,claude-media,claude-simulator --field-trial-handle=2176,i,████████████████████████████████████████,262144 --enable-features=AllowWindowCaptureExclus
+              ionInRemoteSessions,DocumentPolicyIncludeJSCallStacksInCrashReports,HttpCacheZstdCompression,HttpCacheZstdDecompression,IsolatesPriorityUseProcessPriority,PdfUseShowSaveFilePicker --disable-featur
+              es=ConnectionAllowlists,DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation 
+              --variations-seed-version --pseudonymization-salt-handle=2188,i,████████████████████████████████████████,4 --trace-process-track-uuid=███████████████████ --mojo-platform-channel-handle=5068 
+              /prefetch:14
+              ParentUser: ███████████████\Sujal
+
+
+

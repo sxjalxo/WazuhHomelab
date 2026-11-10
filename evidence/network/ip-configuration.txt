@@ -1,0 +1,47 @@
+# Lab network interface captures, 2026-11-09.
+
+## Ubuntu endpoint (agent 001)
+ubuntu@ubuntu:~$ ip -br addr
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:a00:27ff:fe76:d45b/64 fe80::a00:27ff:fe76:d45b/64
+enp0s8           UP             192.168.56.104/24 metric 100 fe80::a00:27ff:fe91:ca9/64
+
+## Kali Linux
+┌──(kali㉿kali)-[~]
+└─$ ip -br addr
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:a050:dd0f:518b:8025/64 fe80::bda0:c070:ec23:9983/64
+eth1             UP             192.168.56.105/24 fe80::c09:e5a4:ea35:7a63/64
+
+## Windows 11 host
+# Trimmed for publication: only the VirtualBox host-only adapter is kept. The original output also listed
+# the physical Wi-Fi adapter (home LAN, separate subnet, not part of the lab) and three disconnected
+# adapters (wired Ethernet, OpenVPN DCO, OpenVPN TAP).
+PS C:\Windows\system32> Get-NetIPConfiguration
+
+InterfaceAlias       : Ethernet 2
+InterfaceIndex       : 16
+InterfaceDescription : VirtualBox Host-Only Ethernet Adapter
+IPv4Address          : 192.168.56.1
+IPv6DefaultGateway   :
+IPv4DefaultGateway   :
+DNSServer            : fec0:0:0:ffff::1
+                       fec0:0:0:ffff::2
+                       fec0:0:0:ffff::3
+
+## Wazuh server
+wazuh@wazuh:~$ ip -br addr
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s3           UP             10.0.2.15/24 metric 100 fd17:625c:f037:2:a00:27ff:fe40:33a1/64 fe80::a00:27ff:fe40:33a1/64
+enp0s8           UP             192.168.56.103/24 metric 100 fe80::a00:27ff:fe30:b78e/64
+
+## Windows 11 host (ipconfig)
+# Trimmed for publication: only the VirtualBox host-only adapter ("Ethernet 2") is kept. The original output
+# also listed the Wi-Fi adapter (home LAN, separate subnet) and several disconnected adapters.
+Ethernet adapter Ethernet 2:
+
+   Connection-specific DNS Suffix  . :
+   Link-local IPv6 Address . . . . . : fe80::c5ad:bdec:7ced:2a64%16
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . :

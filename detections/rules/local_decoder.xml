@@ -1,0 +1,18 @@
+<!--
+  DET-001: extract the source IP from sshd's PAM summary line so that
+  rule 2502 alerts carry data.srcip.
+  Deployed on the Wazuh manager at /var/ossec/etc/decoders/local_decoder.xml
+  (after Wazuh's stock header comment and local_decoder_example).
+  Version v2: prematch ends at "failure" so it also decodes the singular
+  "PAM 1 more authentication failure;" (v1 ended with "failures;").
+  Note: that singular line still matches rule 5711 (level 0) and raises no
+  alert; closing that gap needs a rule (see DET-001 section 8).
+  Documentation: ../DET-001.md
+-->
+
+<decoder name="sshd-pam-auth-failures">
+    <parent>sshd</parent>
+    <prematch>PAM \d+ more authentication failure</prematch>
+    <regex>rhost=(\S+)</regex>
+    <order>srcip</order>
+</decoder>

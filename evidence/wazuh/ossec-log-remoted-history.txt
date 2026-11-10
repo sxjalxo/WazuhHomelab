@@ -1,0 +1,47 @@
+# Source: Wazuh server (192.168.56.103), /var/ossec/logs/ossec.log, captured 2026-11-09. Times are UTC.
+# Every line mentioning "already running" or "wazuh-remoted", from the top of the file.
+# Output is exactly 40 lines (head -40). All matches up to line 1139 (2026-11-09 11:36:43) are therefore present;
+# later matches (e.g. the 13:21:45 start, already in ossec-log-excerpt-2026-11-09.txt) are cut off.
+# No line contains "already running".
+
+wazuh@wazuh:~$ sudo grep -a -n -E 'already running|wazuh-remoted' /var/ossec/logs/ossec.log | head -40
+56:2026/11/08 13:27:10 wazuh-remoted: INFO: Started (pid: 60356). Listening on port 1514/TCP (secure).
+57:2026/11/08 13:27:10 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+128:2026/11/08 13:31:34 wazuh-remoted: INFO: (1225): SIGNAL [(15)-(Terminated)] Received. Exit Cleaning...
+202:2026/11/08 13:31:44 wazuh-remoted: INFO: Started (pid: 64202). Listening on port 1514/TCP (secure).
+203:2026/11/08 13:31:44 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+325:2026/11/08 14:18:10 wazuh-remoted: INFO: Started (pid: 1312). Listening on port 1514/TCP (secure).
+326:2026/11/08 14:18:10 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+453:2026/11/08 17:17:27 wazuh-remoted: INFO: Started (pid: 1265). Listening on port 1514/TCP (secure).
+454:2026/11/08 17:17:27 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+577:2026/11/08 17:23:20 wazuh-remoted: INFO: Started (pid: 1267). Listening on port 1514/TCP (secure).
+578:2026/11/08 17:23:20 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+716:2026/11/08 18:25:58 wazuh-remoted: INFO: Started (pid: 1245). Listening on port 1514/TCP (secure).
+717:2026/11/08 18:25:58 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+787:2026/11/08 18:47:35 wazuh-remoted: INFO: (1409): Authentication file changed. Updating.
+788:2026/11/08 18:47:35 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+794:2026/11/08 19:14:38 wazuh-remoted: INFO: (1409): Authentication file changed. Updating.
+795:2026/11/08 19:14:38 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+796:2026/11/08 19:15:15 wazuh-remoted: WARNING: (1404): Authentication error. Wrong key or corrupt payload. Message received from agent '002' at 'any'.
+797:2026/11/08 19:15:15 wazuh-remoted: WARNING: Decrypt the message fail, socket 30
+1063:2026/11/09 10:21:04 wazuh-remoted: INFO: Started (pid: 4100). Listening on port 1514/TCP (secure).
+1064:2026/11/09 10:21:04 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+1121:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1122:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1123:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1124:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1125:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1126:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1127:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1128:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1129:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1130:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1131:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1132:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1133:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1134:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1135:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1136:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1137:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1138:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+1139:2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'

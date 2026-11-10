@@ -1,0 +1,29 @@
+# Source: Wazuh server (192.168.56.103), captured 2026-11-09 (after TS-01 recovery).
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-control info
+WAZUH_VERSION="v4.14.10"
+WAZUH_REVISION="rc2"
+WAZUH_TYPE="server"
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/agent_control -l
+
+Wazuh agent_control. List of available agents:
+   ID: 000, Name: wazuh (server), IP: 127.0.0.1, Active/Local
+   ID: 001, Name: ubuntu, IP: any, Active
+   ID: 002, Name: windows-host, IP: any, Active
+
+List of agentless devices:
+
+wazuh@wazuh:~$ sudo ss -lntp
+State      Recv-Q      Send-Q                Local Address:Port            Peer Address:Port     Process
+LISTEN     0           4096                  127.0.0.53%lo:53                   0.0.0.0:*         users:(("systemd-resolve",pid=497,fd=15))
+LISTEN     0           4096                     127.0.0.54:53                   0.0.0.0:*         users:(("systemd-resolve",pid=497,fd=17))
+LISTEN     0           2048                        0.0.0.0:55000                0.0.0.0:*         users:(("python3",pid=3917,fd=47))
+LISTEN     0           128                         0.0.0.0:1514                 0.0.0.0:*         users:(("wazuh-remoted",pid=4100,fd=4))
+LISTEN     0           128                         0.0.0.0:1515                 0.0.0.0:*         users:(("wazuh-authd",pid=3960,fd=6))
+LISTEN     0           511                         0.0.0.0:443                  0.0.0.0:*         users:(("node",pid=683,fd=19))
+LISTEN     0           4096                        0.0.0.0:22                   0.0.0.0:*         users:(("sshd",pid=888,fd=3),("systemd",pid=1,fd=89))
+LISTEN     0           4096             [::ffff:127.0.0.1]:9200                       *:*         users:(("java",pid=864,fd=622))
+LISTEN     0           4096             [::ffff:127.0.0.1]:9300                       *:*         users:(("java",pid=864,fd=620))
+LISTEN     0           2048                           [::]:55000                   [::]:*         users:(("python3",pid=3917,fd=48))
+LISTEN     0           4096                           [::]:22                      [::]:*         users:(("sshd",pid=888,fd=4),("systemd",pid=1,fd=90))

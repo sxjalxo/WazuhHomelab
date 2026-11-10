@@ -1,0 +1,164 @@
+# Source: Wazuh server (192.168.56.103), /var/ossec/logs/ossec.log, captured 2026-11-09.
+# Log timestamps are UTC: the 10:47:32 entry quotes a Sysmon event with SystemTime 2026-11-09T10:47:32.896Z,
+# and wazuh-remoted pid 4100 (started 10:21:04) is the process seen in `ss -lntp` (server-status.txt).
+#
+# Command used:
+#   sudo grep -a -iE -C 3 'remoted|1514|error|warning' /var/ossec/logs/ossec.log | tail -150
+# Because of `tail -150`, the excerpt starts at 10:17:44. Earlier lines, including any "already running"
+# message from the TS-01 failure, are NOT in this capture.
+#
+# Edits for publication (everything else is verbatim):
+#   - The 10:47:32 analysisd WARNING quotes a full Sysmon EID 1 event XML (~20 KB). Its body is replaced by a
+#     bracketed summary. It contained the Windows computer name, local username, local paths and a long
+#     base64 -EncodedCommand.
+
+2026/11/09 10:17:44 wazuh-authd: WARNING: Duplicate name 'windows-host', rejecting enrollment. Agent '002' has not been disconnected long enough to be replaced.
+2026/11/09 10:18:06 wazuh-authd: INFO: Received request for a new agent (ubuntu) from: 192.168.56.104
+2026/11/09 10:18:06 wazuh-authd: WARNING: Duplicate name 'ubuntu', rejecting enrollment. Agent '001' has not been disconnected long enough to be replaced.
+2026/11/09 10:18:44 wazuh-authd: INFO: Received request for a new agent (windows-host) from: 192.168.56.1
+2026/11/09 10:18:44 wazuh-authd: WARNING: Duplicate name 'windows-host', rejecting enrollment. Agent '002' has not been disconnected long enough to be replaced.
+2026/11/09 10:18:56 wazuh-authd: INFO: Received request for a new agent (ubuntu) from: 192.168.56.104
+2026/11/09 10:18:56 wazuh-authd: WARNING: Duplicate name 'ubuntu', rejecting enrollment. Agent '001' has not been disconnected long enough to be replaced.
+2026/11/09 10:19:44 wazuh-authd: INFO: Received request for a new agent (windows-host) from: 192.168.56.1
+2026/11/09 10:19:44 wazuh-authd: WARNING: Duplicate name 'windows-host', rejecting enrollment. Agent '002' has not been disconnected long enough to be replaced.
+2026/11/09 10:19:46 wazuh-authd: INFO: Received request for a new agent (ubuntu) from: 192.168.56.104
+2026/11/09 10:19:46 wazuh-authd: WARNING: Duplicate name 'ubuntu', rejecting enrollment. Agent '001' has not been disconnected long enough to be replaced.
+2026/11/09 10:20:18 wazuh-monitord: INFO: (1225): SIGNAL [(15)-(Terminated)] Received. Exit Cleaning...
+2026/11/09 10:20:18 wazuh-logcollector: INFO: (1225): SIGNAL [(15)-(Terminated)] Received. Exit Cleaning...
+2026/11/09 10:20:18 wazuh-db: INFO: (1225): SIGNAL [(15)-(Terminated)] Received. Exit Cleaning...
+--
+2026/11/09 10:20:19 wazuh-modulesd:inventory-harvester: INFO: Stopping inventory_harvester module.
+2026/11/09 10:20:19 logger-helper: INFO: Inventory harvester module stopped.
+2026/11/09 10:20:19 wazuh-db: INFO: Graceful process shutdown.
+2026/11/09 10:20:57 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054720 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 10:20:57 wazuh-modulesd:router: INFO: Loaded router module.
+2026/11/09 10:20:57 wazuh-modulesd:content_manager: INFO: Loaded content_manager module.
+2026/11/09 10:20:57 wazuh-modulesd:inventory-harvester: INFO: Loaded Inventory harvester module.
+2026/11/09 10:20:58 wazuh-testrule: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054720 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 10:21:00 wazuh-csyslogd: INFO: Remote syslog server not configured. Clean exit.
+2026/11/09 10:21:00 wazuh-integratord: INFO: Remote integrations not configured. Clean exit.
+2026/11/09 10:21:00 wazuh-agentlessd: INFO: Not configured. Exiting.
+--
+2026/11/09 10:21:01 :router: INFO: Registering POST endpoint: /v1/agents/restartinfo
+2026/11/09 10:21:01 :router: INFO: API started successfully
+2026/11/09 10:21:01 wazuh-execd: INFO: Started (pid: 4007).
+2026/11/09 10:21:01 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054720 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 10:21:01 wazuh-analysisd: INFO: Total rules enabled: '8454'
+2026/11/09 10:21:01 wazuh-analysisd: INFO: Started (pid: 4018).
+2026/11/09 10:21:01 wazuh-analysisd: INFO: (7200): Logtest started
+--
+2026/11/09 10:21:03 wazuh-syscheckd: INFO: (6010): File integrity monitoring scan frequency: 43200 seconds
+2026/11/09 10:21:03 wazuh-syscheckd: INFO: (6008): File integrity monitoring scan started.
+2026/11/09 10:21:03 rootcheck: INFO: Starting rootcheck scan.
+2026/11/09 10:21:04 wazuh-remoted: INFO: Started (pid: 4100). Listening on port 1514/TCP (secure).
+2026/11/09 10:21:04 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+2026/11/09 10:21:04 wazuh-logcollector: INFO: Monitoring output of command(360): df -P
+2026/11/09 10:21:04 wazuh-logcollector: INFO: Monitoring full output of command(360): netstat -tulpn | sed 's/\([[:alnum:]]\+\)\ \+[[:digit:]]\+\ \+[[:digit:]]\+\ \+\(.*\):\([[:digit:]]*\)\ \+\([0-9\.\:\*]\+\).\+\ \([[:digit:]]*\/[[:alnum:]\-]*\).*/\1 \2 == \3 == \4 \5/' | sort -k 4 -g | sed 's/ == \(.*\) ==/:\1/' | sed 1,2d
+2026/11/09 10:21:04 wazuh-logcollector: INFO: Monitoring full output of command(360): last -n 20
+--
+2026/11/09 10:21:15 sca: INFO: Security Configuration Assessment scan finished. Duration: 10 seconds.
+2026/11/09 10:21:56 wazuh-syscheckd: INFO: netstat not available. Skipping port check.
+2026/11/09 10:22:01 rootcheck: INFO: Ending rootcheck scan.
+2026/11/09 10:47:32 wazuh-analysisd: WARNING: Could not read XML string: '"<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' ...>[EVENT BODY OMITTED FOR PUBLICATION: Sysmon EventID 1, Channel Microsoft-Windows-Sysmon/Operational, SystemTime 2026-11-09T10:47:32.8962215Z, EventRecordID 7499. Image C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe, CommandLine "-NoProfile -NonInteractive -NoLogo -EncodedCommand <base64 of roughly 16,000 characters>", CurrentDirectory E:\Projects\WazuhHomelab\, IntegrityLevel Medium, Hashes SHA256=60C9B29843624DD8AF6B6A7B26147753BE6AEEF65098B9A503CC50850AFE410F, ParentImage ...\Claude\claude-code\2.1.317\...\claude.exe (Claude Code desktop app), ParentCommandLine truncated with "..."]</EventData></Event>"'
+2026/11/09 11:09:14 wazuh-logcollector: INFO: (9204): 'Journald' timestamp was refreshed due to rotation.
+2026/11/09 11:21:20 wazuh-modulesd:syscollector: INFO: Starting evaluation.
+2026/11/09 11:21:40 wazuh-modulesd:syscollector: INFO: Evaluation finished.
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:43 wazuh-remoted: WARNING: Agent key already in use: agent ID '002'
+2026/11/09 11:36:44 wazuh-logcollector: INFO: (9204): 'Journald' timestamp was refreshed due to rotation.
+2026/11/09 11:44:55 wazuh-logcollector: INFO: (9204): 'Journald' timestamp was refreshed due to rotation.
+2026/11/09 12:10:39 wazuh-logcollector: INFO: (9204): 'Journald' timestamp was refreshed due to rotation.
+2026/11/09 12:21:41 wazuh-modulesd:syscollector: INFO: Starting evaluation.
+2026/11/09 12:21:57 wazuh-modulesd:syscollector: INFO: Evaluation finished.
+2026/11/09 13:21:29 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 13:21:31 wazuh-modulesd:router: INFO: Loaded router module.
+2026/11/09 13:21:31 wazuh-modulesd:content_manager: INFO: Loaded content_manager module.
+2026/11/09 13:21:31 wazuh-modulesd:inventory-harvester: INFO: Loaded Inventory harvester module.
+2026/11/09 13:21:33 wazuh-testrule: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 13:21:37 wazuh-csyslogd: INFO: Remote syslog server not configured. Clean exit.
+2026/11/09 13:21:37 wazuh-integratord: INFO: Remote integrations not configured. Clean exit.
+2026/11/09 13:21:37 wazuh-agentlessd: INFO: Not configured. Exiting.
+--
+2026/11/09 13:21:38 :router: INFO: Registering POST endpoint: /v1/agents/restartinfo
+2026/11/09 13:21:38 :router: INFO: API started successfully
+2026/11/09 13:21:41 wazuh-execd: INFO: Started (pid: 1258).
+2026/11/09 13:21:42 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+2026/11/09 13:21:43 wazuh-analysisd: INFO: Total rules enabled: '8454'
+2026/11/09 13:21:43 wazuh-analysisd: INFO: Started (pid: 1280).
+2026/11/09 13:21:43 wazuh-syscheckd: INFO: Started (pid: 1296).
+--
+2026/11/09 13:21:45 wazuh-logcollector: INFO: (1950): Analyzing file: '/var/ossec/logs/active-responses.log'.
+2026/11/09 13:21:45 wazuh-logcollector: INFO: (1950): Analyzing file: '/var/log/dpkg.log'.
+2026/11/09 13:21:45 wazuh-logcollector: INFO: Started (pid: 1376).
+2026/11/09 13:21:45 wazuh-remoted: INFO: Started (pid: 1364). Listening on port 1514/TCP (secure).
+2026/11/09 13:21:45 wazuh-remoted: INFO: (1410): Reading authentication keys file.
+2026/11/09 13:21:45 wazuh-monitord: INFO: Started (pid: 1419).
+2026/11/09 13:21:46 wazuh-modulesd:router: INFO: Loaded router module.
+2026/11/09 13:21:46 wazuh-modulesd:content_manager: INFO: Loaded content_manager module.
+--
+2026/11/09 13:21:46 wazuh-modulesd:syscollector: INFO: Module started.
+2026/11/09 13:21:46 wazuh-modulesd:syscollector: INFO: Starting evaluation.
+2026/11/09 13:21:47 wazuh-logcollector: INFO: (9203): Monitoring journal entries.
+2026/11/09 13:21:48 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-packages-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:48 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-vulnerabilities-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:48 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-system-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:48 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-processes-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:49 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-ports-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:49 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-hotfixes-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:49 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-hardware-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:49 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-protocols-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:50 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-interfaces-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:50 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-networks-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:50 wazuh-modulesd:syscollector: INFO: Evaluation finished.
+2026/11/09 13:21:50 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-users-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:50 wazuh-syscheckd: INFO: (6009): File integrity monitoring scan ended.
+2026/11/09 13:21:50 wazuh-syscheckd: INFO: FIM sync module started.
+2026/11/09 13:21:50 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-groups-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:51 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-browser-extensions-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:51 wazuh-modulesd:vulnerability-scanner: INFO: Vulnerability scanner module started.
+2026/11/09 13:21:51 logger-helper: INFO: InventoryHarvesterFacade module started.
+2026/11/09 13:21:51 indexer-connector: WARNING: IndexerConnector initialization failed for index 'wazuh-states-inventory-services-wazuh', retrying until the connection is successful.
+2026/11/09 13:21:51 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:51 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:51 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:52 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:53 indexer-connector: WARNING: Failed to sync agent '001': No available server
+2026/11/09 13:21:57 sca: INFO: Evaluation finished for policy '/var/ossec/ruleset/sca/cis_ubuntu24-04.yml'
+2026/11/09 13:21:57 sca: INFO: Security Configuration Assessment scan finished. Duration: 11 seconds.
+2026/11/09 13:22:14 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:15 indexer-connector: WARNING: Failed to sync agent '002': No available server
+2026/11/09 13:22:48 wazuh-syscheckd: INFO: netstat not available. Skipping port check.
+2026/11/09 13:22:52 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-packages-wazuh.
+2026/11/09 13:22:52 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-vulnerabilities-wazuh.

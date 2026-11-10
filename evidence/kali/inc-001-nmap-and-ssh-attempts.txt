@@ -1,0 +1,30 @@
+# Source: Kali Linux terminal (192.168.56.105), captured 2026-11-09. Kali clock is UTC-05:00.
+# Passwords typed at the prompts are not echoed and are not recorded here.
+
+┌──(kali㉿kali)-[~]
+└─$ nmap -sV -sC -p 22 192.168.56.104
+Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-09 05:26 -0500
+Nmap scan report for 192.168.56.104
+Host is up (0.00068s latency).
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.20 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   256 34:5d:fa:8d:b4:cd:b9:fb:7b:c4:40:6c:01:9b:c6:c4 (ECDSA)
+|_  256 a2:66:93:28:b4:02:9a:0a:0f:a0:2d:a4:2f:f5:87:46 (ED25519)
+MAC Address: 08:00:27:91:0C:A9 (Oracle VirtualBox virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 3.26 seconds
+
+┌──(kali㉿kali)-[~]
+└─$ ssh -o PreferredAuthentications=password \
+    -o PubkeyAuthentication=no \
+    invaliduser@192.168.56.104
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+invaliduser@192.168.56.104: Permission denied (publickey,password).

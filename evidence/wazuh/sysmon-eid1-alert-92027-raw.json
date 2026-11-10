@@ -1,0 +1,101 @@
+{
+  "_index": "wazuh-alerts-4.x-2026.11.08",
+  "_id": "xMOsvKEBjIyXsWBEhzrg",
+  "_score": null,
+  "_source": {
+    "input": {
+      "type": "log"
+    },
+    "agent": {
+      "ip": "192.168.56.1",
+      "name": "windows-host",
+      "id": "002"
+    },
+    "manager": {
+      "name": "wazuh"
+    },
+    "data": {
+      "win": {
+        "eventdata": {
+          "originalFileName": "PowerShell.EXE",
+          "image": "C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe",
+          "product": "Microsoft® Windows® Operating System",
+          "parentProcessGuid": "{f791f99d-cd40-6af0-f904-00000000f503}",
+          "description": "Windows PowerShell",
+          "logonGuid": "{f791f99d-af3d-6af0-6786-040000000000}",
+          "parentCommandLine": "\\\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe",
+          "processGuid": "{f791f99d-cffe-6af0-d205-00000000f503}",
+          "logonId": "0x48667",
+          "parentProcessId": "6244",
+          "processId": "14108",
+          "currentDirectory": "C:\\\\Windows\\\\system32\\\\",
+          "utcTime": "2026-11-08 19:39:42.846",
+          "hashes": "SHA256=60C9B29843624DD8AF6B6A7B26147753BE6AEEF65098B9A503CC50850AFE410F",
+          "parentImage": "C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe",
+          "company": "Microsoft Corporation",
+          "commandLine": "\\\"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe  -NoProfile -Command \\\"Get-Date\\\"",
+          "integrityLevel": "High",
+          "fileVersion": "10.0.26100.9549 (WinBuild.160101.0800)",
+          "user": "███████████████\\\\Sujal",
+          "terminalSessionId": "1",
+          "parentUser": "███████████████\\\\Sujal"
+        },
+        "system": {
+          "eventID": "1",
+          "keywords": "0x8000000000000000",
+          "providerGuid": "{5770385f-c22a-43e0-bf4c-06f5698ffbd9}",
+          "level": "4",
+          "channel": "Microsoft-Windows-Sysmon/Operational",
+          "opcode": "0",
+          "message": "\"Process Create:\r\nRuleName: -\r\nUtcTime: 2026-11-08 19:39:42.846\r\nProcessGuid: {f791f99d-cffe-6af0-d205-00000000f503}\r\nProcessId: 14108\r\nImage: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\r\nFileVersion: 10.0.26100.9549 (WinBuild.160101.0800)\r\nDescription: Windows PowerShell\r\nProduct: Microsoft® Windows® Operating System\r\nCompany: Microsoft Corporation\r\nOriginalFileName: PowerShell.EXE\r\nCommandLine: \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe  -NoProfile -Command \"Get-Date\" \r\nCurrentDirectory: C:\\Windows\\system32\\\r\nUser: ███████████████\\Sujal\r\nLogonGuid: {f791f99d-af3d-6af0-6786-040000000000}\r\nLogonId: 0x48667\r\nTerminalSessionId: 1\r\nIntegrityLevel: High\r\nHashes: SHA256=60C9B29843624DD8AF6B6A7B26147753BE6AEEF65098B9A503CC50850AFE410F\r\nParentProcessGuid: {f791f99d-cd40-6af0-f904-00000000f503}\r\nParentProcessId: 6244\r\nParentImage: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\r\nParentCommandLine: \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe  \r\nParentUser: ███████████████\\Sujal\"",
+          "version": "5",
+          "systemTime": "2026-11-08T19:39:42.8557535Z",
+          "eventRecordID": "464",
+          "threadID": "18256",
+          "computer": "███████████████",
+          "task": "1",
+          "processID": "2908",
+          "severityValue": "INFORMATION",
+          "providerName": "Microsoft-Windows-Sysmon"
+        }
+      }
+    },
+    "rule": {
+      "firedtimes": 1,
+      "mail": false,
+      "level": 4,
+      "description": "Powershell process spawned powershell instance",
+      "groups": [
+        "sysmon",
+        "sysmon_eid1_detections",
+        "windows"
+      ],
+      "mitre": {
+        "technique": [
+          "PowerShell"
+        ],
+        "id": [
+          "T1059.001"
+        ],
+        "tactic": [
+          "Execution"
+        ]
+      },
+      "id": "92027"
+    },
+    "location": "EventChannel",
+    "decoder": {
+      "name": "windows_eventchannel"
+    },
+    "id": "1794166784.4686021",
+    "timestamp": "2026-11-08T19:39:44.332+0000"
+  },
+  "fields": {
+    "timestamp": [
+      "2026-11-08T19:39:44.332Z"
+    ]
+  },
+  "sort": [
+    1794166784332
+  ]
+}

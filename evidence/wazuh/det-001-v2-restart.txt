@@ -1,0 +1,77 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-09, ~19:00:30 UTC. Times are UTC.
+# Manager restart after the DET-001 v2 decoder change (operator-reported). The decoder file itself was
+# not printed after this change. wazuh_apid.py processes 8084-8092 trimmed from the CGroup list.
+
+wazuh@wazuh:~$ sudo systemctl status wazuh-manager --no-pager
+● wazuh-manager.service - Wazuh manager
+     Loaded: loaded (/usr/lib/systemd/system/wazuh-manager.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-11-09 18:59:41 UTC; 49s ago
+    Process: 8020 ExecStart=/usr/bin/env /var/ossec/bin/wazuh-control start (code=exited, status=0/SUCCESS)
+      Tasks: 232 (limit: 9431)
+     Memory: 701.1M (peak: 701.4M)
+        CPU: 54.539s
+     CGroup: /system.slice/wazuh-manager.service
+             [wazuh_apid.py processes trimmed]
+             ├─8127 /var/ossec/bin/wazuh-authd
+             ├─8139 /var/ossec/bin/wazuh-db
+             ├─8171 /var/ossec/bin/wazuh-execd
+             ├─8185 /var/ossec/bin/wazuh-analysisd
+             ├─8198 /var/ossec/bin/wazuh-syscheckd
+             ├─8268 /var/ossec/bin/wazuh-remoted
+             ├─8322 /var/ossec/bin/wazuh-logcollector
+             ├─8371 /var/ossec/bin/wazuh-monitord
+             └─8421 /var/ossec/bin/wazuh-modulesd
+
+Nov 09 18:59:34 wazuh env[8020]: Started wazuh-syscheckd...
+Nov 09 18:59:35 wazuh env[8020]: Started wazuh-remoted...
+Nov 09 18:59:36 wazuh env[8020]: Started wazuh-logcollector...
+Nov 09 18:59:37 wazuh env[8020]: Started wazuh-monitord...
+Nov 09 18:59:37 wazuh env[8418]: 2026/11/09 18:59:37 wazuh-modulesd:router: INFO: Loaded router module.
+Nov 09 18:59:37 wazuh env[8418]: 2026/11/09 18:59:37 wazuh-modulesd:content_manager: INFO: Loaded content_manager module.
+Nov 09 18:59:37 wazuh env[8418]: 2026/11/09 18:59:37 wazuh-modulesd:inventory-harvester: INFO: Loaded Inventory harvester module.
+Nov 09 18:59:39 wazuh env[8020]: Started wazuh-modulesd...
+Nov 09 18:59:41 wazuh env[8020]: Completed.
+Nov 09 18:59:41 wazuh systemd[1]: Started wazuh-manager.service - Wazuh manager.
+wazuh@wazuh:~$ sudo ss -lntp | grep ':1514'
+LISTEN 0      128               0.0.0.0:1514       0.0.0.0:*    users:(("wazuh-remoted",pid=8268,fd=4))
+wazuh@wazuh:~$ sudo tail -40 /var/ossec/logs/ossec.log
+2026/11/09 18:59:37 wazuh-modulesd: INFO: Started (pid: 8421).
+2026/11/09 18:59:37 wazuh-modulesd:agent-upgrade: INFO: (8153): Module Agent Upgrade started.
+2026/11/09 18:59:37 wazuh-modulesd:ciscat: INFO: Module disabled. Exiting...
+2026/11/09 18:59:37 wazuh-modulesd:osquery: INFO: Module disabled. Exiting...
+2026/11/09 18:59:37 wazuh-modulesd:task-manager: INFO: (8200): Module Task Manager started.
+2026/11/09 18:59:37 wazuh-modulesd:vulnerability-scanner: INFO: Starting vulnerability_scanner module.
+2026/11/09 18:59:37 sca: INFO: Module started.
+2026/11/09 18:59:38 sca: INFO: Loaded policy '/var/ossec/ruleset/sca/cis_ubuntu24-04.yml'
+2026/11/09 18:59:38 wazuh-modulesd:router: INFO: Starting router module.
+2026/11/09 18:59:38 sca: INFO: Starting Security Configuration Assessment scan.
+2026/11/09 18:59:38 wazuh-modulesd:database: INFO: Module started.
+2026/11/09 18:59:38 wazuh-modulesd:inventory-harvester: INFO: Starting inventory_harvester module.
+2026/11/09 18:59:38 wazuh-modulesd:download: INFO: Module started.
+2026/11/09 18:59:38 wazuh-modulesd:content_manager: INFO: Starting content_manager module.
+2026/11/09 18:59:38 wazuh-modulesd:control: INFO: Starting control thread.
+2026/11/09 18:59:38 wazuh-modulesd:syscollector: INFO: Module started.
+2026/11/09 18:59:38 wazuh-modulesd:syscollector: INFO: Starting evaluation.
+2026/11/09 18:59:38 sca: INFO: Starting evaluation of policy: '/var/ossec/ruleset/sca/cis_ubuntu24-04.yml'
+2026/11/09 18:59:38 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-vulnerabilities-wazuh.
+2026/11/09 18:59:38 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-packages-wazuh.
+2026/11/09 18:59:38 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-system-wazuh.
+2026/11/09 18:59:38 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-processes-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-ports-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-hotfixes-wazuh.
+2026/11/09 18:59:39 wazuh-modulesd:vulnerability-scanner: INFO: Vulnerability scanner module started.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-hardware-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-protocols-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-interfaces-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-networks-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-users-wazuh.
+2026/11/09 18:59:39 wazuh-modulesd:syscollector: INFO: Evaluation finished.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-groups-wazuh.
+2026/11/09 18:59:39 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-browser-extensions-wazuh.
+2026/11/09 18:59:40 logger-helper: INFO: InventoryHarvesterFacade module started.
+2026/11/09 18:59:40 indexer-connector: INFO: IndexerConnector initialized successfully for index: wazuh-states-inventory-services-wazuh.
+2026/11/09 18:59:45 sca: INFO: Evaluation finished for policy '/var/ossec/ruleset/sca/cis_ubuntu24-04.yml'
+2026/11/09 18:59:45 sca: INFO: Security Configuration Assessment scan finished. Duration: 7 seconds.
+2026/11/09 19:00:03 wazuh-modulesd:vulnerability-scanner: INFO: Initiating update feed process.
+2026/11/09 19:00:25 wazuh-syscheckd: INFO: netstat not available. Skipping port check.
+2026/11/09 19:00:30 rootcheck: INFO: Ending rootcheck scan.

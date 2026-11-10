@@ -1,0 +1,8 @@
+# Source: Wazuh server VM (192.168.56.103), 2026-11-09.
+
+wazuh@wazuh:~$ lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 24.04.5 LTS
+Release:        24.04
+Codename:       noble

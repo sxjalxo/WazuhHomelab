@@ -1,0 +1,32 @@
+# Source: Kali VM (192.168.56.105), 2026-11-09. Section 1 ran after the Wazuh manager restart at 18:06:56 UTC.
+# The terminal shows no timestamps. The resulting 2502 alert (E-28) has log time 18:07:58 UTC, sshd PID 2470.
+# Three passwords were typed for a non-existent account; none is a real credential.
+
+## 1. Invalid-user validation test (source of E-28)
+
+┌──(kali㉿kali)-[~]
+└─$ ssh -o PreferredAuthentications=password \
+    -o PubkeyAuthentication=no \
+    invaliduser@192.168.56.104
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+
+## 2. Real-account test (wrong passwords for the existing account `ubuntu`)
+# Captured later on 2026-11-09, no timestamps. The endpoint shows two real-account sessions from Kali:
+# sshd PID 2685 (pam_unix failure at 18:52:17 UTC) and sshd PID 2722 (PAM summary at 19:02:43 UTC).
+# Which of the two this capture shows is not recorded. All three passwords were rejected.
+
+┌──(kali㉿kali)-[~]
+└─$ ssh -o PreferredAuthentications=password \
+    -o PubkeyAuthentication=no \
+    ubuntu@192.168.56.104
+ubuntu@192.168.56.104's password: 
+Permission denied, please try again.
+ubuntu@192.168.56.104's password: 
+Permission denied, please try again.
+ubuntu@192.168.56.104's password: 
+ubuntu@192.168.56.104: Permission denied (publickey,password).

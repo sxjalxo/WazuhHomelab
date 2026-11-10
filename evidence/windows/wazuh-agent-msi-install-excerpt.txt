@@ -1,0 +1,16 @@
+# Excerpt from msiexec verbose log (install.log, UTF-16LE) for the Windows Wazuh agent install.
+# Lines selected verbatim by line number; full log kept outside the repository. Times are host local (UTC+05:30).
+
+﻿=== Verbose logging started: 09-11-2026  00:43:10  Build type: SHIP UNICODE 5.00.10011.00  Calling process: C:\Windows\system32\msiexec.exe ===
+           ******* Product: E:\Projects\Wazuh\wazuh-agent-4.14.10-1.msi
+MSI (c) (D0:6C) [00:43:11:630]: Command Line: WAZUH_MANAGER=192.168.56.103 WAZUH_AGENT_NAME=windows-host WAZUH_AGENT_GROUP=default CURRENTDIRECTORY=E:\Projects\Wazuh CLIENTUILEVEL=0 CLIENTPROCESSID=16848 
+MSI (c) (D0:6C) [00:43:11:632]: PROPERTY CHANGE: Adding WAZUH_MANAGER property. Its value is '192.168.56.103'.
+MSI (c) (D0:6C) [00:43:11:632]: PROPERTY CHANGE: Adding WAZUH_AGENT_NAME property. Its value is 'windows-host'.
+MSI (c) (D0:6C) [00:43:11:632]: PROPERTY CHANGE: Adding WAZUH_AGENT_GROUP property. Its value is 'default'.
+MSI (s) (68:F0) [00:43:26:046]: Skipping action: SetRegistrationPassword (condition is false)
+Property(S): ProductVersion = 4.14.10
+MSI (s) (68:F0) [00:43:28:662]: MainEngineThread is returning 0
+MSI (c) (D0:6C) [00:43:32:232]: Product: Wazuh Agent -- Installation completed successfully.
+MSI (c) (D0:6C) [00:43:32:233]: Windows Installer installed the product. Product Name: Wazuh Agent. Product Version: 4.14.10. Product Language: 1033. Manufacturer: Wazuh, Inc.. Installation success or error status: 0.
+
+MSI (s) (68:F0) [00:43:26:866]: Executing op: ServiceInstall(Name=WazuhSvc,DisplayName=Wazuh,ImagePath="C:\Program Files (x86)\ossec-agent\wazuh-agent.exe",ServiceType=16,StartType=2,ErrorControl=1,,Dependencies=[~],,,Pa

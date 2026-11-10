@@ -1,0 +1,145 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-09, ~19:13 UTC onward. Times are UTC.
+# Decoder version v2 in place (prematch "PAM \d+ more authentication failure").
+# Log lines in sections 2-4 are logtest inputs: sections 2-3 are synthetic (timestamp "Nov 10 00:00:00",
+# PIDs 3001/3002) built from real lines; section 4 is the real 18:52:17 line from sshd PID 2685 (E-32).
+# The singular-line test was pasted twice with identical output; it is reproduced once.
+# Section 3's paste ends after the tsc line (no "**Alert to be generated." line was included).
+
+## 1. Deployed decoder file (v2) and configuration test
+
+wazuh@wazuh:~$ sudo cat /var/ossec/etc/decoders/local_decoder.xml; sudo /var/ossec/bin/wazuh-analysisd -t
+<!-- Local Decoders -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!--
+  - Allowed static fields:
+  - location   - where the log came from (only on FTS)
+  - srcuser    - extracts the source username
+  - dstuser    - extracts the destination (target) username
+  - user       - an alias to dstuser (only one of the two can be used)
+  - srcip      - source ip
+  - dstip      - dst ip
+  - srcport    - source port
+  - dstport    - destination port
+  - protocol   - protocol
+  - id         - event id
+  - url        - url of the event
+  - action     - event action (deny, drop, accept, etc)
+  - status     - event status (success, failure, etc)
+  - extra_data - Any extra data
+-->
+
+<decoder name="local_decoder_example">
+    <program_name>local_decoder_example</program_name>
+</decoder>
+<decoder name="sshd-pam-auth-failures">
+    <parent>sshd</parent>
+    <prematch>PAM \d+ more authentication failure</prematch>
+    <regex>rhost=(\S+)</regex>
+    <order>srcip</order>
+</decoder>
+2026/11/09 19:13:31 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+
+## 2. Singular wording under v2: decoded with srcip, still rule 5711 level 0 (no alert)
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        srcip: '192.168.56.105'
+
+**Phase 3: Completed filtering (rules).
+        id: '5711'
+        level: '0'
+        description: 'sshd: Useless/Duplicated SSHD message without a user/ip.'
+        groups: '['syslog', 'sshd']'
+        firedtimes: '1'
+        mail: 'False'
+
+## 3. Regression under v2: plural wording (non-existent account)
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3002]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3002]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        srcip: '192.168.56.105'
+
+**Phase 3: Completed filtering (rules).
+        id: '2502'
+        level: '10'
+        description: 'syslog: User missed the password more than one time'
+        groups: '['syslog', 'access_control', 'authentication_failed']'
+        firedtimes: '1'
+        gdpr: '['IV_35.7.d', 'IV_32.2']'
+        gpg13: '['7.8']'
+        hipaa: '['164.312.b']'
+        mail: 'False'
+        mitre.id: '['T1110']'
+        mitre.tactic: '['Credential Access']'
+        mitre.technique: '['Brute Force']'
+        nist_800_53: '['AU.14', 'AC.7']'
+        pci_dss: '['10.2.4', '10.2.5']'
+        tsc: '['CC6.1', 'CC6.8', 'CC7.2', 'CC7.3']'
+
+## 4. Regression under v2: pam_unix failure line (real account, sshd PID 2685)
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 09 18:52:17 ubuntu sshd[2685]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105  user=ubuntu
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 09 18:52:17 ubuntu sshd[2685]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105  user=ubuntu'
+        timestamp: 'Nov 09 18:52:17'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'pam'
+        dstuser: 'ubuntu'
+        euid: '0'
+        srcip: '192.168.56.105'
+        tty: 'ssh'
+        uid: '0'
+
+**Phase 3: Completed filtering (rules).
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        groups: '['pam', 'syslog', 'authentication_failed']'
+        firedtimes: '1'
+        gdpr: '['IV_35.7.d', 'IV_32.2']'
+        gpg13: '['7.8']'
+        hipaa: '['164.312.b']'
+        mail: 'False'
+        mitre.id: '['T1110.001']'
+        mitre.tactic: '['Credential Access']'
+        mitre.technique: '['Password Guessing']'
+        nist_800_53: '['AU.14', 'AC.7']'
+        pci_dss: '['10.2.4', '10.2.5']'
+        tsc: '['CC6.1', 'CC6.8', 'CC7.2', 'CC7.3']'

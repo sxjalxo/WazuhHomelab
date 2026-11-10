@@ -1,0 +1,112 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-09, ~18:49-19:00 UTC. Times are UTC.
+# Log lines fed to wazuh-logtest in sections 2 and 3 are synthetic test inputs (timestamp "Nov 10 00:00:00",
+# PIDs 3000/3001) built from real INC-001 lines. Section 3's singular wording was NOT observed on the endpoint.
+# Sections 1-3 ran with decoder version v1 (prematch "...failures;"). The later change to v2
+# (prematch "...failure") was made afterwards and is not captured here.
+
+## 1. Deployed decoder file (v1) and configuration test
+
+wazuh@wazuh:~$ echo "=== DEPLOYED LOCAL DECODER ==="
+sudo cat /var/ossec/etc/decoders/local_decoder.xml
+
+echo "=== CONFIGURATION VALIDATION ==="
+sudo /var/ossec/bin/wazuh-analysisd -t
+=== DEPLOYED LOCAL DECODER ===
+<!-- Local Decoders -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!--
+  - Allowed static fields:
+  - location   - where the log came from (only on FTS)
+  - srcuser    - extracts the source username
+  - dstuser    - extracts the destination (target) username
+  - user       - an alias to dstuser (only one of the two can be used)
+  - srcip      - source ip
+  - dstip      - dst ip
+  - srcport    - source port
+  - dstport    - destination port
+  - protocol   - protocol
+  - id         - event id
+  - url        - url of the event
+  - action     - event action (deny, drop, accept, etc)
+  - status     - event status (success, failure, etc)
+  - extra_data - Any extra data
+-->
+
+<decoder name="local_decoder_example">
+    <program_name>local_decoder_example</program_name>
+</decoder>
+<decoder name="sshd-pam-auth-failures">
+    <parent>sshd</parent>
+    <prematch>PAM \d+ more authentication failures;</prematch>
+    <regex>rhost=(\S+)</regex>
+    <order>srcip</order>
+</decoder>
+=== CONFIGURATION VALIDATION ===
+2026/11/09 18:49:11 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+
+## 2. Regression: 5710 ("Invalid user" line, from INC-001 with synthetic timestamp/PID)
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3000]: Invalid user invaliduser from 192.168.56.105 port 40492
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3000]: Invalid user invaliduser from 192.168.56.105 port 40492'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        srcip: '192.168.56.105'
+        srcport: '40492'
+        srcuser: 'invaliduser'
+
+**Phase 3: Completed filtering (rules).
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        groups: '['syslog', 'sshd', 'authentication_failed', 'invalid_login']'
+        firedtimes: '1'
+        gdpr: '['IV_35.7.d', 'IV_32.2']'
+        gpg13: '['7.1']'
+        hipaa: '['164.312.b']'
+        mail: 'False'
+        mitre.id: '['T1110.001', 'T1021.004']'
+        mitre.tactic: '['Credential Access', 'Lateral Movement']'
+        mitre.technique: '['Password Guessing', 'SSH']'
+        nist_800_53: '['AU.14', 'AC.7', 'AU.6']'
+        pci_dss: '['10.2.4', '10.2.5', '10.6.1']'
+        tsc: '['CC6.1', 'CC6.8', 'CC7.2', 'CC7.3']'
+**Alert to be generated.
+
+## 3. Singular wording ("PAM 1 more authentication failure;", synthetic), decoder v1 in place
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+
+**Phase 3: Completed filtering (rules).
+        id: '5711'
+        level: '0'
+        description: 'sshd: Useless/Duplicated SSHD message without a user/ip.'
+        groups: '['syslog', 'sshd']'
+        firedtimes: '1'
+        mail: 'False'

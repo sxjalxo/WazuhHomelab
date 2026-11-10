@@ -1,0 +1,40 @@
+# Source: Windows 11 host, elevated PowerShell, 2026-11-09. Host clock is UTC+05:30.
+
+PS C:\Windows\system32> Get-Service Sysmon64
+
+Status   Name               DisplayName
+------   ----               -----------
+Running  Sysmon64           Sysmon64
+
+PS C:\Windows\system32> Get-WinEvent -FilterHashtable @{
+>>     LogName = 'Microsoft-Windows-Sysmon/Operational'
+>>     Id = 1
+>> } -MaxEvents 1 | Format-List TimeCreated, Id, Message
+
+
+TimeCreated : 09-11-2026 17:11:32
+Id          : 1
+Message     : Process Create:
+              RuleName: -
+              UtcTime: 2026-11-09 11:41:32.751
+              ProcessGuid: {f791f99d-b16c-6af1-7c05-00000000f903}
+              ProcessId: 17424
+              Image: C:\Windows\System32\svchost.exe
+              FileVersion: 10.0.26100.8737 (WinBuild.160101.0800)
+              Description: Host Process for Windows Services
+              Product: Microsoft® Windows® Operating System
+              Company: Microsoft Corporation
+              OriginalFileName: svchost.exe
+              CommandLine: C:\Windows\system32\svchost.exe -k netsvcs -p -s wlidsvc
+              CurrentDirectory: C:\Windows\system32\
+              User: NT AUTHORITY\SYSTEM
+              LogonGuid: {f791f99d-9020-6af1-e703-000000000000}
+              LogonId: 0x3E7
+              TerminalSessionId: 0
+              IntegrityLevel: System
+              Hashes: SHA256=1222A44A5FDB4EFDE4DFCB41093648627950E7EC02D8667F1C26CCAE31D922E2
+              ParentProcessGuid: {f791f99d-901f-6af1-0c00-00000000f903}
+              ParentProcessId: 1972
+              ParentImage: C:\Windows\System32\services.exe
+              ParentCommandLine: C:\Windows\system32\services.exe
+              ParentUser: NT AUTHORITY\SYSTEM

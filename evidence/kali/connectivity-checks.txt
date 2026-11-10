@@ -1,0 +1,20 @@
+# Source: Kali Linux terminal (192.168.56.105), captured 2026-11-09 (after TS-01 recovery and TS-03 firewall rule).
+# The trailing "~" on the nc command is reproduced as captured; the output shows all three ports were tested.
+
+┌──(kali㉿kali)-[~]
+└─$ nc -zv 192.168.56.103 443 1514 1515~
+192.168.56.103: inverse host lookup failed: Unknown host
+(UNKNOWN) [192.168.56.103] 443 (https) open
+(UNKNOWN) [192.168.56.103] 1514 (?) open
+(UNKNOWN) [192.168.56.103] 1515 (?) open
+
+┌──(kali㉿kali)-[~]
+└─$ ping -c 3 192.168.56.1
+PING 192.168.56.1 (192.168.56.1) 56(84) bytes of data.
+64 bytes from 192.168.56.1: icmp_seq=1 ttl=128 time=0.956 ms
+64 bytes from 192.168.56.1: icmp_seq=2 ttl=128 time=0.492 ms
+64 bytes from 192.168.56.1: icmp_seq=3 ttl=128 time=0.495 ms
+
+--- 192.168.56.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2044ms
+rtt min/avg/max/mdev = 0.492/0.647/0.956/0.218 ms
