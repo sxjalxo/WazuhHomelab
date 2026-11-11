@@ -66,7 +66,7 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | Kali reachability of manager ports 443 / 1514 / 1515 | **Verified** | `connectivity-checks.txt` |
 | DET-001: custom decoder adds `data.srcip` to rule 2502 (sshd PAM summary) | **Verified** (v1 end to end; v2 file, logtest and regression). The two-failure gap it exposed is handled by DET-003 | [`detections/DET-001.md`](detections/DET-001.md), E-28–E-36 |
 | DET-003: custom rule 100100 alerts on SSH sessions with exactly two failed passwords (singular PAM summary, which built-in rules drop at level 0) | **Verified** end to end: gap confirmed live, `wazuh-logtest` with regression, live alert with `data.srcip` | [`detections/DET-003.md`](detections/DET-003.md), E-37–E-40 |
-| Custom Wazuh rules | Not started (`etc/rules` user ruleset path is configured) | Manager `ossec.conf` |
+| DET-002: custom correlation rule 100200 for low-rate SSH guessing (5 PAM failures from one IP in 30 min); built-in rules were shown to stay silent at ~78 s per attempt | **Verified**: built-in coverage measured fast and slow, gap reproduced, logtest, live alert with `data.srcip` | [`detections/DET-002.md`](detections/DET-002.md), E-41–E-52 |
 | Custom Sysmon configuration | Not started: default config, no rules installed | `Sysmon64.exe -c` |
 | Windows attack simulations | Not started | — |
 | Active response | **Not configured**: `<active-response>` block commented out on the manager | Manager `ossec.conf` |
@@ -80,6 +80,7 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | [docs/attack-simulations/INC-001-ssh-authentication-failure.md](docs/attack-simulations/INC-001-ssh-authentication-failure.md) | Controlled invalid-user SSH test, timeline, alert and MITRE analysis |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | TCP 1514 listener / stale PID recovery and other issues |
 | [detections/DET-001.md](detections/DET-001.md) | Custom decoder extracting the source IP for rule 2502, before/after evidence, regression plan, limitations |
+| [detections/DET-002.md](detections/DET-002.md) | Low-rate SSH guessing: built-in correlation measured (fast burst vs slow pace), rule 40111 investigation, custom rule, live validation, coverage table |
 | [detections/DET-003.md](detections/DET-003.md) | Custom rule for two-failure SSH sessions: live gap evidence, root cause from the rule source, tests, limitations |
 | [docs/roadmap.md](docs/roadmap.md) | Implemented vs planned work |
 | [docs/evidence-index.md](docs/evidence-index.md) | Every evidence file, what it proves, and what is still missing |
@@ -99,6 +100,7 @@ SOC-Detection-Engineering-Lab/
 │       └── INC-001-ssh-authentication-failure.md
 ├── detections/
 │   ├── DET-001.md
+│   ├── DET-002.md
 │   ├── DET-003.md
 │   └── rules/
 │       ├── local_decoder.xml   # deployed to /var/ossec/etc/decoders/

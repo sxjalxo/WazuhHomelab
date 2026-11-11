@@ -1,0 +1,48 @@
+# Source: Wazuh server (192.168.56.103), /var/ossec/logs/alerts/alerts.json, 2026-11-11. Times are UTC (manager receive time).
+# All alerts with data.srcip 192.168.56.105 in the 15:00 hour. Columns: timestamp, rule.id, rule.level, rule.firedtimes, description.
+# 15:10:21 onward = the 10-connection slow-pace run (endpoint: det-002-slow-pace-auth-log.txt): 20 x 5710 + 10 x 5503.
+# 15:07:19-15:09:57 = three earlier Kali connections at the same ~78 s rhythm, before the run's start time and outside
+#   the endpoint capture window: an earlier run of the same loop, stopped with Ctrl+C (operator-reported).
+# Result: 13 failing connections from one source over ~15 min; NO level-10 alert (no 5712, 5551 or 40111).
+# The script prints full JSON for level >= 10 after the summary line; nothing was printed.
+
+2026-11-11T15:07:19.732+0000 5710 5 1 sshd: Attempt to login using a non-existent user
+2026-11-11T15:07:19.788+0000 5503 5 1 PAM: User login failed.
+2026-11-11T15:07:21.738+0000 5710 5 2 sshd: Attempt to login using a non-existent user
+2026-11-11T15:08:37.755+0000 5710 5 3 sshd: Attempt to login using a non-existent user
+2026-11-11T15:08:37.798+0000 5503 5 2 PAM: User login failed.
+2026-11-11T15:08:39.755+0000 5710 5 4 sshd: Attempt to login using a non-existent user
+2026-11-11T15:09:55.777+0000 5710 5 5 sshd: Attempt to login using a non-existent user
+2026-11-11T15:09:55.967+0000 5503 5 3 PAM: User login failed.
+2026-11-11T15:09:57.779+0000 5710 5 6 sshd: Attempt to login using a non-existent user
+2026-11-11T15:10:21.785+0000 5710 5 7 sshd: Attempt to login using a non-existent user
+2026-11-11T15:10:21.876+0000 5503 5 4 PAM: User login failed.
+2026-11-11T15:10:23.788+0000 5710 5 8 sshd: Attempt to login using a non-existent user
+2026-11-11T15:11:39.814+0000 5710 5 9 sshd: Attempt to login using a non-existent user
+2026-11-11T15:11:39.854+0000 5503 5 5 PAM: User login failed.
+2026-11-11T15:11:39.854+0000 5710 5 10 sshd: Attempt to login using a non-existent user
+2026-11-11T15:12:57.835+0000 5710 5 11 sshd: Attempt to login using a non-existent user
+2026-11-11T15:12:57.878+0000 5503 5 6 PAM: User login failed.
+2026-11-11T15:12:59.837+0000 5710 5 12 sshd: Attempt to login using a non-existent user
+2026-11-11T15:14:15.857+0000 5710 5 13 sshd: Attempt to login using a non-existent user
+2026-11-11T15:14:15.900+0000 5503 5 7 PAM: User login failed.
+2026-11-11T15:14:17.860+0000 5710 5 14 sshd: Attempt to login using a non-existent user
+2026-11-11T15:15:33.881+0000 5710 5 15 sshd: Attempt to login using a non-existent user
+2026-11-11T15:15:33.931+0000 5503 5 8 PAM: User login failed.
+2026-11-11T15:15:35.881+0000 5710 5 16 sshd: Attempt to login using a non-existent user
+2026-11-11T15:16:51.899+0000 5710 5 17 sshd: Attempt to login using a non-existent user
+2026-11-11T15:16:51.958+0000 5710 5 18 sshd: Attempt to login using a non-existent user
+2026-11-11T15:16:51.958+0000 5503 5 9 PAM: User login failed.
+2026-11-11T15:18:07.922+0000 5710 5 19 sshd: Attempt to login using a non-existent user
+2026-11-11T15:18:07.965+0000 5503 5 10 PAM: User login failed.
+2026-11-11T15:18:09.923+0000 5710 5 20 sshd: Attempt to login using a non-existent user
+2026-11-11T15:19:25.947+0000 5710 5 21 sshd: Attempt to login using a non-existent user
+2026-11-11T15:19:25.988+0000 5503 5 11 PAM: User login failed.
+2026-11-11T15:19:27.948+0000 5710 5 22 sshd: Attempt to login using a non-existent user
+2026-11-11T15:20:43.970+0000 5710 5 23 sshd: Attempt to login using a non-existent user
+2026-11-11T15:20:44.019+0000 5503 5 12 PAM: User login failed.
+2026-11-11T15:20:45.971+0000 5710 5 24 sshd: Attempt to login using a non-existent user
+2026-11-11T15:22:01.992+0000 5710 5 25 sshd: Attempt to login using a non-existent user
+2026-11-11T15:22:02.079+0000 5503 5 13 PAM: User login failed.
+2026-11-11T15:22:03.995+0000 5710 5 26 sshd: Attempt to login using a non-existent user
+parsed=481 skipped=1 matched=39

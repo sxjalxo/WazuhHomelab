@@ -1,0 +1,192 @@
+# Source: Wazuh server (192.168.56.103), /var/ossec/logs/alerts/alerts.json, 2026-11-11. Times are UTC (manager receive time).
+# All alerts with data.srcip 192.168.56.105 between 14:40 and 14:49 UTC: the DET-002 baseline burst test (E-41, E-42).
+# Columns: timestamp, rule.id, rule.level, rule.firedtimes, rule.description. parsed=378 skipped=1 (one unparsable line
+# in alerts.json, not investigated). Followed by the full JSON of the two level-10 alerts.
+# Note: the 5710 alert at 14:47:59.518 reports firedtimes 2 out of sequence; cause not investigated.
+# Rule 40111 (12 x authentication_failed group in 160 s, same source IP) did NOT fire.
+
+2026-11-11T14:47:23.488+0000 5710 5 1 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:23.676+0000 5503 5 1 PAM: User login failed.
+2026-11-11T14:47:25.489+0000 5710 5 2 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:27.490+0000 5710 5 3 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:27.496+0000 5503 5 2 PAM: User login failed.
+2026-11-11T14:47:29.495+0000 5710 5 4 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:31.498+0000 5710 5 5 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:31.498+0000 5503 5 3 PAM: User login failed.
+2026-11-11T14:47:33.495+0000 5710 5 6 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:37.501+0000 5710 5 7 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:37.508+0000 5503 5 4 PAM: User login failed.
+2026-11-11T14:47:39.500+0000 5712 10 1 sshd: brute force trying to get access to the system. Non existent user.
+2026-11-11T14:47:41.504+0000 5710 5 8 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:41.506+0000 5503 5 5 PAM: User login failed.
+2026-11-11T14:47:43.505+0000 5710 5 9 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:47.513+0000 5503 5 6 PAM: User login failed.
+2026-11-11T14:47:47.510+0000 5710 5 10 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:47.518+0000 5710 5 11 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:51.514+0000 5710 5 12 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:51.518+0000 5503 5 7 PAM: User login failed.
+2026-11-11T14:47:53.513+0000 5710 5 13 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:57.519+0000 5551 10 1 PAM: Multiple failed logins in a small period of time.
+2026-11-11T14:47:57.519+0000 5710 5 14 sshd: Attempt to login using a non-existent user
+2026-11-11T14:47:59.518+0000 5710 5 2 sshd: Attempt to login using a non-existent user
+2026-11-11T14:48:01.519+0000 5710 5 15 sshd: Attempt to login using a non-existent user
+2026-11-11T14:48:01.524+0000 5503 5 8 PAM: User login failed.
+2026-11-11T14:48:05.519+0000 5710 5 16 sshd: Attempt to login using a non-existent user
+parsed=378 skipped=1 matched=27
+
+## Full JSON, level >= 10
+
+{
+  "timestamp": "2026-11-11T14:47:39.500+0000",
+  "rule": {
+    "level": 10,
+    "description": "sshd: brute force trying to get access to the system. Non existent user.",
+    "id": "5712",
+    "mitre": {
+      "id": [
+        "T1110"
+      ],
+      "tactic": [
+        "Credential Access"
+      ],
+      "technique": [
+        "Brute Force"
+      ]
+    },
+    "frequency": 8,
+    "firedtimes": 1,
+    "mail": false,
+    "groups": [
+      "syslog",
+      "sshd",
+      "authentication_failures"
+    ],
+    "gdpr": [
+      "IV_35.7.d",
+      "IV_32.2"
+    ],
+    "hipaa": [
+      "164.312.b"
+    ],
+    "nist_800_53": [
+      "SI.4",
+      "AU.14",
+      "AC.7"
+    ],
+    "pci_dss": [
+      "11.4",
+      "10.2.4",
+      "10.2.5"
+    ],
+    "tsc": [
+      "CC6.1",
+      "CC6.8",
+      "CC7.2",
+      "CC7.3"
+    ]
+  },
+  "agent": {
+    "id": "001",
+    "name": "ubuntu",
+    "ip": "192.168.56.104"
+  },
+  "manager": {
+    "name": "wazuh"
+  },
+  "id": "1794408459.1275842",
+  "previous_output": "Nov 11 14:47:35 ubuntu sshd[2198]: Invalid user invaliduser from 192.168.56.105 port 53882\nNov 11 14:47:32 ubuntu sshd[2196]: Failed password for invalid user invaliduser from 192.168.56.105 port 53876 ssh2\nNov 11 14:47:30 ubuntu sshd[2196]: Invalid user invaliduser from 192.168.56.105 port 53876\nNov 11 14:47:28 ubuntu sshd[2194]: Failed password for invalid user invaliduser from 192.168.56.105 port 35314 ssh2\nNov 11 14:47:26 ubuntu sshd[2194]: Invalid user invaliduser from 192.168.56.105 port 35314\nNov 11 14:47:23 ubuntu sshd[2192]: Failed password for invalid user invaliduser from 192.168.56.105 port 35298 ssh2\nNov 11 14:47:21 ubuntu sshd[2192]: Invalid user invaliduser from 192.168.56.105 port 35298",
+  "full_log": "Nov 11 14:47:37 ubuntu sshd[2198]: Failed password for invalid user invaliduser from 192.168.56.105 port 53882 ssh2",
+  "predecoder": {
+    "program_name": "sshd",
+    "timestamp": "Nov 11 14:47:37",
+    "hostname": "ubuntu"
+  },
+  "decoder": {
+    "parent": "sshd",
+    "name": "sshd"
+  },
+  "data": {
+    "srcip": "192.168.56.105",
+    "srcuser": "invaliduser"
+  },
+  "location": "journald"
+}
+{
+  "timestamp": "2026-11-11T14:47:57.519+0000",
+  "rule": {
+    "level": 10,
+    "description": "PAM: Multiple failed logins in a small period of time.",
+    "id": "5551",
+    "mitre": {
+      "id": [
+        "T1110"
+      ],
+      "tactic": [
+        "Credential Access"
+      ],
+      "technique": [
+        "Brute Force"
+      ]
+    },
+    "frequency": 8,
+    "firedtimes": 1,
+    "mail": false,
+    "groups": [
+      "pam",
+      "syslog",
+      "authentication_failures"
+    ],
+    "pci_dss": [
+      "10.2.4",
+      "10.2.5",
+      "11.4"
+    ],
+    "gpg13": [
+      "7.8"
+    ],
+    "gdpr": [
+      "IV_35.7.d",
+      "IV_32.2"
+    ],
+    "hipaa": [
+      "164.312.b"
+    ],
+    "nist_800_53": [
+      "AU.14",
+      "AC.7",
+      "SI.4"
+    ],
+    "tsc": [
+      "CC6.1",
+      "CC6.8",
+      "CC7.2",
+      "CC7.3"
+    ]
+  },
+  "agent": {
+    "id": "001",
+    "name": "ubuntu",
+    "ip": "192.168.56.104"
+  },
+  "manager": {
+    "name": "wazuh"
+  },
+  "id": "1794408477.1281750",
+  "previous_output": "Nov 11 14:47:50 ubuntu sshd[2215]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:45 ubuntu sshd[2213]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:40 ubuntu sshd[2201]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:35 ubuntu sshd[2198]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:30 ubuntu sshd[2196]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:26 ubuntu sshd[2194]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 14:47:21 ubuntu sshd[2192]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105",
+  "full_log": "Nov 11 14:47:55 ubuntu sshd[2217]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105",
+  "predecoder": {
+    "program_name": "sshd",
+    "timestamp": "Nov 11 14:47:55",
+    "hostname": "ubuntu"
+  },
+  "decoder": {
+    "name": "pam"
+  },
+  "data": {
+    "srcip": "192.168.56.105",
+    "uid": "0",
+    "euid": "0",
+    "tty": "ssh"
+  },
+  "location": "journald"
+}

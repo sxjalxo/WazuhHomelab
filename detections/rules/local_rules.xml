@@ -20,3 +20,23 @@
     <group>authentication_failed,</group>
   </rule>
 </group>
+
+<!--
+  DET-002: low-rate SSH/PAM password guessing from one source.
+  Built-in correlation (5712: 8 x 5710 in 120 s; 5551: 8 x 5503 in 180 s) stays silent once
+  failing connections are more than ~40 s apart; a tested pace of one per ~78 s raised no correlation alert.
+  Counts rule 5503 (one PAM failure per failing connection, both real and non-existent accounts).
+  Documentation: ../DET-002.md
+-->
+
+<group name="local,syslog,pam,">
+  <rule id="100200" level="10" frequency="5" timeframe="1800" ignore="600">
+    <if_matched_sid>5503</if_matched_sid>
+    <same_source_ip />
+    <description>PAM: repeated failed logins from one source over 30 min (low-rate guessing)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failures,</group>
+  </rule>
+</group>

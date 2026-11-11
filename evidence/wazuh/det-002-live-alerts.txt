@@ -1,0 +1,79 @@
+# Source: Wazuh server (192.168.56.103), /var/ossec/logs/alerts/alerts.json, 2026-11-11. Times are UTC (manager receive time).
+# All alerts with data.srcip 192.168.56.105 from 15:44 to 16:00 UTC: the DET-002 live validation (6 connections,
+# endpoint: det-002-live-validation-auth-log.txt). Columns: timestamp, rule.id, rule.level, rule.firedtimes, description.
+# Rule 100200 replaced the 5th connection's 5503 alert; the 6th stayed 5503 (ignore=600). Followed by the 100200 JSON.
+
+2026-11-11T15:44:28.336+0000 5710 5 1 sshd: Attempt to login using a non-existent user
+2026-11-11T15:44:28.386+0000 5503 5 1 PAM: User login failed.
+2026-11-11T15:44:30.337+0000 5710 5 2 sshd: Attempt to login using a non-existent user
+2026-11-11T15:45:46.359+0000 5710 5 3 sshd: Attempt to login using a non-existent user
+2026-11-11T15:45:46.361+0000 5503 5 2 PAM: User login failed.
+2026-11-11T15:45:50.361+0000 5710 5 4 sshd: Attempt to login using a non-existent user
+2026-11-11T15:47:04.382+0000 5710 5 5 sshd: Attempt to login using a non-existent user
+2026-11-11T15:47:04.430+0000 5503 5 3 PAM: User login failed.
+2026-11-11T15:47:06.385+0000 5710 5 6 sshd: Attempt to login using a non-existent user
+2026-11-11T15:48:22.407+0000 5710 5 7 sshd: Attempt to login using a non-existent user
+2026-11-11T15:48:22.460+0000 5503 5 4 PAM: User login failed.
+2026-11-11T15:48:22.460+0000 5710 5 8 sshd: Attempt to login using a non-existent user
+2026-11-11T15:49:40.429+0000 5710 5 9 sshd: Attempt to login using a non-existent user
+2026-11-11T15:49:40.482+0000 100200 10 1 PAM: repeated failed logins from one source over 30 min (low-rate guessing)
+2026-11-11T15:49:42.429+0000 5710 5 10 sshd: Attempt to login using a non-existent user
+2026-11-11T15:50:58.448+0000 5710 5 11 sshd: Attempt to login using a non-existent user
+2026-11-11T15:50:58.452+0000 5503 5 5 PAM: User login failed.
+2026-11-11T15:51:00.450+0000 5710 5 12 sshd: Attempt to login using a non-existent user
+parsed=543 skipped=1 matched=18
+
+{
+  "timestamp": "2026-11-11T15:49:40.482+0000",
+  "rule": {
+    "level": 10,
+    "description": "PAM: repeated failed logins from one source over 30 min (low-rate guessing)",
+    "id": "100200",
+    "mitre": {
+      "id": [
+        "T1110.001"
+      ],
+      "tactic": [
+        "Credential Access"
+      ],
+      "technique": [
+        "Password Guessing"
+      ]
+    },
+    "frequency": 5,
+    "firedtimes": 1,
+    "mail": false,
+    "groups": [
+      "local",
+      "syslog",
+      "pam",
+      "authentication_failures"
+    ]
+  },
+  "agent": {
+    "id": "001",
+    "name": "ubuntu",
+    "ip": "192.168.56.104"
+  },
+  "manager": {
+    "name": "wazuh"
+  },
+  "id": "1794412180.1381343",
+  "previous_output": "Nov 11 15:48:20 ubuntu sshd[2497]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 15:47:04 ubuntu sshd[2484]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 15:45:45 ubuntu sshd[2479]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105\nNov 11 15:44:27 ubuntu sshd[2473]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105",
+  "full_log": "Nov 11 15:49:38 ubuntu sshd[2499]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105",
+  "predecoder": {
+    "program_name": "sshd",
+    "timestamp": "Nov 11 15:49:38",
+    "hostname": "ubuntu"
+  },
+  "decoder": {
+    "name": "pam"
+  },
+  "data": {
+    "srcip": "192.168.56.105",
+    "uid": "0",
+    "euid": "0",
+    "tty": "ssh"
+  },
+  "location": "journald"
+}

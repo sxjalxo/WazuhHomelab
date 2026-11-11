@@ -1,0 +1,67 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-11. Built-in correlation (frequency) rules relevant to SSH/PAM
+# authentication failures, from the installed v4.14.10 ruleset. Unrelated rules in the same grep output
+# (5703 reverse-lookup errors, 5705 login timeouts, 5714 CRC-32 attack, 5719 denied users) are summarised, not reproduced.
+
+## 0095-sshd_rules.xml (frequency rules)
+#   5703  level 10, 6 x 5702 in 360 s, same_source_ip  (reverse lookup errors)
+#   5705  level 10, 6 x 5704 in 360 s                  (login timeouts)
+#   5714  level 14, 3 x 5713 in 120 s                  (CRC-32 compensation attack)
+#   5719  level 10, 8 x 5718 in 120 s, ignore 60       (denied user; no same_source_ip)
+
+109:  <rule id="5712" level="10" frequency="8" timeframe="120" ignore="60">
+110-    <if_matched_sid>5710</if_matched_sid>
+111-    <same_source_ip />
+112-    <description>sshd: brute force trying to get access to the system. Non existent user.</description>
+113-    <mitre>
+114-      <id>T1110</id>
+115-    </mitre>
+116-    <group>authentication_failures,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_SI.4,nist_800_53_AU.14,nist_800_53_AC.7,pci_dss_11.4,pci_dss_10.2.4,pci_dss_10.2.5,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+117-  </rule>
+
+183:  <rule id="5720" level="10" frequency="8">
+184-    <if_matched_sid>5716</if_matched_sid>
+185-    <same_source_ip />
+186-    <description>sshd: Multiple authentication failures.</description>
+187-    <mitre>
+188-      <id>T1110</id>
+189-    </mitre>
+190-    <group>authentication_failures,gdpr_IV_35.7.d,gdpr_IV_32.2,gpg13_7.1,hipaa_164.312.b,nist_800_53_AU.14,nist_800_53_AC.7,nist_800_53_SI.4,pci_dss_10.2.4,pci_dss_10.2.5,pci_dss_11.4,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+191-  </rule>
+
+479:  <rule id="5763" level="10" frequency="8" timeframe="120" ignore="60">
+480-    <if_matched_sid>5760</if_matched_sid>
+481-    <same_source_ip/>
+482-    <description>sshd: brute force trying to get access to the system. Authentication failed.</description>
+483-    <mitre>
+484-      <id>T1110</id>
+485-    </mitre>
+486-    <group>authentication_failures,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_SI.4,nist_800_53_AU.14,nist_800_53_AC.7,pci_dss_11.4,pci_dss_10.2.4,pci_dss_10.2.5,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+487-  </rule>
+
+## 0085-pam_rules.xml
+
+71:  <rule id="5551" level="10" frequency="8" timeframe="180">
+72-    <if_matched_sid>5503</if_matched_sid>
+73-    <same_source_ip />
+74-    <description>PAM: Multiple failed logins in a small period of time.</description>
+75-    <mitre>
+76-      <id>T1110</id>
+77-    </mitre>
+78-    <group>authentication_failures,pci_dss_10.2.4,pci_dss_10.2.5,pci_dss_11.4,gpg13_7.8,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_AU.14,nist_800_53_AC.7,nist_800_53_SI.4,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+79-  </rule>
+
+## Group-based correlation: files containing if_matched_group>authentication_failed
+# /var/ossec/ruleset/rules/0280-attack_rules.xml
+# /var/ossec/ruleset/rules/0580-win-security_rules.xml
+
+## 0280-attack_rules.xml
+
+91:  <rule id="40111" level="10" frequency="12" timeframe="160">
+92:    <if_matched_group>authentication_failed</if_matched_group>
+93-    <same_source_ip />
+94-    <description>Multiple authentication failures.</description>
+95-    <mitre>
+96-      <id>T1110</id>
+97-    </mitre>
+98-    <group>authentication_failures,pci_dss_10.2.4,pci_dss_10.2.5,gpg13_7.1,gpg13_7.8,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_AU.14,nist_800_53_AC.7,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+99-  </rule>

@@ -1,0 +1,116 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-11, ~15:42-15:44 UTC. Times are UTC.
+# DET-002 rule 100200 added to /var/ossec/etc/rules/local_rules.xml (nano edit not captured; section 4 prints the
+# deployed file after the live validation). Logtest input: 8 synthetic copies of the real pam_unix failure line (timestamps
+# "Nov 11 16:00:0x", PIDs 5001-5008), piped into ONE logtest session; output filtered to Phase 3 fields.
+# Note: analysisd reported 6933 MiB physical memory here vs 7941 MiB on 2026-11-09/11-11 morning (E-36, E-39): the operator
+# lowered the Wazuh VM from 8192 MB to 7168 MB in VirtualBox (operator-reported).
+
+## 1. Backup, edit, configuration test
+
+wazuh@wazuh:~$ sudo cp /var/ossec/etc/rules/local_rules.xml /var/ossec/etc/rules/local_rules.xml.bak-det002
+wazuh@wazuh:~$ sudo nano /var/ossec/etc/rules/local_rules.xml
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-analysisd -t
+2026/11/11 15:43:11 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 56797152 nodes: 25% of 6933 MiB of physical memory, 32 bytes per node.
+
+## 2. Logtest: 8 PAM failures from one source in one session
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest 2>&1 <<'EOF' | grep -E "^\s+(id|level|description|firedtimes):"
+Nov 11 16:00:01 ubuntu sshd[5001]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:02 ubuntu sshd[5002]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:03 ubuntu sshd[5003]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:04 ubuntu sshd[5004]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:05 ubuntu sshd[5005]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:06 ubuntu sshd[5006]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:07 ubuntu sshd[5007]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 16:00:08 ubuntu sshd[5008]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+EOF
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '1'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '2'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '3'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '4'
+        id: '100200'
+        level: '10'
+        description: 'PAM: repeated failed logins from one source over 30 min (low-rate guessing)'
+        firedtimes: '1'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '5'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '6'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '7'
+
+# Result: 100200 on the 5th failure; 6th-7th suppressed by ignore=600; built-in 5551 did NOT fire on the 8th
+# failure (5503 firedtimes reached only 7 because the 5th event became 100200).
+
+## 3. Restart and listener check (systemctl status not captured)
+
+wazuh@wazuh:~$ sudo systemctl restart wazuh-manager
+wazuh@wazuh:~$ sudo ss -lntp | grep ':1514'
+LISTEN 0      128               0.0.0.0:1514       0.0.0.0:*    users:(("wazuh-remoted",pid=5669,fd=4))
+
+## 4. Deployed local_rules.xml, printed after the live validation (~15:55 UTC)
+
+wazuh@wazuh:~$ sudo cat /var/ossec/etc/rules/local_rules.xml
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+<group name="local,syslog,sshd,">
+  <!-- DET-003: sshd PAM summary after exactly two failed passwords.
+       Built-in 2502 only matches the plural wording; this line falls to 5711 (level 0). -->
+  <rule id="100100" level="5">
+    <if_sid>5711</if_sid>
+    <match>PAM 1 more authentication failure;</match>
+    <description>sshd: two failed passwords in one session (PAM summary)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failed,</group>
+  </rule>
+</group>
+<group name="local,syslog,pam,">
+  <!-- DET-002: low-rate SSH/PAM guessing. Built-in 5551 needs 8 failures in 180 s;
+       a slower pace (tested: one per ~78 s) raised no correlation alert. -->
+  <rule id="100200" level="10" frequency="5" timeframe="1800" ignore="600">
+    <if_matched_sid>5503</if_matched_sid>
+    <same_source_ip />
+    <description>PAM: repeated failed logins from one source over 30 min (low-rate guessing)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failures,</group>
+  </rule>
+</group>

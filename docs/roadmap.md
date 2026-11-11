@@ -14,6 +14,7 @@ This separates what exists today from what is planned. Nothing in the *Planned* 
 | INC-001: invalid-user SSH authentication test, end-to-end trace | **Verified** |
 | DET-001: custom decoder extracting `srcip` for rule 2502 ([details](../detections/DET-001.md)) | **Verified** |
 | DET-003: custom rule 100100 for two-failure SSH sessions ([details](../detections/DET-003.md)) | **Verified** (logtest, regression, live alert) |
+| DET-002: custom correlation rule 100200 for low-rate SSH guessing ([details](../detections/DET-002.md)) | **Verified** (baseline measured, gap reproduced, logtest, live alert) |
 | TS-01: manager TCP 1514 listener recovery | Root cause **Verified** (journal + installed `wazuh-control`); recovery **Verified** |
 
 ## Phase 1: Close evidence gaps and harden the baseline
@@ -36,7 +37,7 @@ Small tasks that make the current state fully verifiable.
 ## Phase 2: Detection engineering on Linux
 
 - **Close the 2502 field gap. Implemented as [DET-001](../detections/DET-001.md)**; The two-failure gap it exposed is handled by [DET-003](../detections/DET-003.md). Original plan: INC-001 showed that rule 2502 (level 10) extracts no `srcip` from `PAM N more authentication failures; … rhost=<ip>`. Add a custom decoder in `/var/ossec/etc/decoders/local_decoder.xml` that extracts `rhost` as `srcip` for this line. Validate it with `wazuh-logtest` against the captured `full_log`, and confirm that `data.srcip:192.168.56.105` then returns all three INC-001 rules.
-- **Custom correlation rule for SSH guessing.** Write a frequency/timeframe rule in `/var/ossec/etc/rules/local_rules.xml` that triggers on N × rule 5710 (or the `authentication_failed` group) from the same `srcip` within T seconds, with a MITRE mapping that reflects the observed behaviour. Test it with `wazuh-logtest` before deploying.
+- **SSH guessing correlation. Implemented as [DET-002](../detections/DET-002.md)**: measured the built-in rules first. 5712/5551 catch fast bursts; nothing caught one failure per ~78 s; rule 40111 (mixed `authentication_failed`) did not fire at all. Custom rule 100200 counts 5503 per source over 30 min. Remaining: confirm the 5551 one-event shift, investigate 40111, consider distributed-source correlation.
 - **INC-002: repeated authentication failures.** Repeat INC-001 at higher volume with a small, documented wordlist against a dedicated test account. Compare built-in rule behaviour with the custom rule.
 - **Recon detection from sshd logs.** INC-001's scan left nine sshd lines in 0.2 s (`banner exchange: … could not read protocol version`, `Unable to negotiate … no matching host key type found. Their offer: <type>`, pre-auth closes) with no observed alert. Steps:
   - Run the captured lines through `wazuh-logtest` to see which (if any) built-in rules match.

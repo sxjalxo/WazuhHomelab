@@ -1,0 +1,14 @@
+# Source: Kali VM (192.168.56.105), 2026-11-11. DET-002 live validation after rule 100200 was deployed:
+# 6 single-attempt password logins as a non-existent account, 75 s apart. 'wrong-pass-test' is a deliberately wrong
+# placeholder, not a credential. Kali's clock runs ~5 s behind the endpoint; endpoint timestamps are authoritative.
+
+┌──(kali㉿kali)-[~]
+└─$ date -u; for i in $(seq 1 6); do sshpass -p 'wrong-pass-test' ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no -o NumberOfPasswordPrompts=1 invaliduser@192.168.56.104 exit; sleep 75; done; date -u
+Wed Nov 11 03:44:21 PM UTC 2026
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+Wed Nov 11 03:52:08 PM UTC 2026

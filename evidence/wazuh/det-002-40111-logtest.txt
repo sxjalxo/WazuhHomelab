@@ -1,0 +1,80 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-11 ~15:15 UTC. Investigation of built-in rule 40111
+# ("Multiple authentication failures": 12 x authentication_failed group in 160 s, same_source_ip, level 10),
+# which did not fire during the DET-002 baseline burst (E-44).
+# Input: 12 synthetic lines built from real endpoint lines, alternating rule 5710 and rule 5503 (6 each), so
+# neither 5712 nor 5551 (8 x the same rule) can trigger; only 40111 could fire, on the 12th line.
+# An earlier attempt pasted each line into a new logtest session (state reset each time) and is not valid;
+# it is not reproduced. This run pipes all 12 lines into ONE session (firedtimes counts up, confirming
+# shared state). Output filtered to the Phase 3 id/level/description/firedtimes lines.
+
+## 1. Has 40111 fired at all today?
+
+wazuh@wazuh:~$ sudo grep -c '"id":"40111"' /var/ossec/logs/alerts/alerts.json
+0
+
+## 2. Single-session logtest, 12 mixed authentication_failed events from one source IP
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest 2>&1 <<'EOF' | grep -E "^\s+(id|level|description|firedtimes):"
+Nov 11 15:00:01 ubuntu sshd[4001]: Invalid user invaliduser from 192.168.56.105 port 40001
+Nov 11 15:00:01 ubuntu sshd[4001]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 15:00:02 ubuntu sshd[4002]: Invalid user invaliduser from 192.168.56.105 port 40002
+Nov 11 15:00:02 ubuntu sshd[4002]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 15:00:03 ubuntu sshd[4003]: Invalid user invaliduser from 192.168.56.105 port 40003
+Nov 11 15:00:03 ubuntu sshd[4003]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 15:00:04 ubuntu sshd[4004]: Invalid user invaliduser from 192.168.56.105 port 40004
+Nov 11 15:00:04 ubuntu sshd[4004]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 15:00:05 ubuntu sshd[4005]: Invalid user invaliduser from 192.168.56.105 port 40005
+Nov 11 15:00:05 ubuntu sshd[4005]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+Nov 11 15:00:06 ubuntu sshd[4006]: Invalid user invaliduser from 192.168.56.105 port 40006
+Nov 11 15:00:06 ubuntu sshd[4006]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+EOF
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '1'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '1'
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '2'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '2'
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '3'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '3'
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '4'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '4'
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '5'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '5'
+        id: '5710'
+        level: '5'
+        description: 'sshd: Attempt to login using a non-existent user'
+        firedtimes: '6'
+        id: '5503'
+        level: '5'
+        description: 'PAM: User login failed.'
+        firedtimes: '6'
+
+# Result: 12 authentication_failed events from 192.168.56.105 in one session; rule 40111 did not fire.

@@ -8,7 +8,7 @@ This records how each component was deployed and how to confirm it is working. S
 
 | Item | Value | Status |
 |---|---|---|
-| Host | VirtualBox VM `wazuh`: 8192 MB RAM, 4 vCPU, 80 GB disk, NAT + Host-only adapters | **Verified** ([VirtualBox details](../evidence/virtualbox/wazuh-vm-details.png)) |
+| Host | VirtualBox VM `wazuh`: 4 vCPU, 80 GB disk, NAT + Host-only adapters; 8192 MB RAM until 2026-11-11, then 7168 MB | **Verified** ([VirtualBox details](../evidence/virtualbox/wazuh-vm-details.png)); 7168 MB **Reported** |
 | Guest OS | Ubuntu 24.04.5 LTS (noble) | **Verified** (`lsb_release -a`, [capture](../evidence/wazuh/lsb-release.txt)). The VirtualBox "Operating System" field shows "Ubuntu 24.10 (Oracular Oriole)", but that is only the guest-type label chosen when the VM was created |
 | Interfaces | `enp0s3` `10.0.2.15/24` (NAT), `enp0s8` `192.168.56.103/24` (host-only) | **Verified** (`ip -br addr`) |
 | Wazuh version | `WAZUH_VERSION="v4.14.10"`, `WAZUH_REVISION="rc2"`, `WAZUH_TYPE="server"` | **Verified** |

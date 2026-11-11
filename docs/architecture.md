@@ -59,7 +59,7 @@ Solid lines are host-only (`192.168.56.0/24`) traffic. Dotted lines are NAT adap
 
 | VM | RAM | vCPU | Status |
 |---|---|---|---|
-| Wazuh server | 8192 MB | 4 | **Verified** (VirtualBox details; disk `wazuh.vdi` 80 GB) |
+| Wazuh server | 7168 MB (8192 MB until 2026-11-11) | 4 | 7168 MB **Reported** (lowered by the operator on 2026-11-11; `wazuh-analysisd` then reported 6933 MiB, consistent). 8192 MB and 4 vCPU **Verified** earlier (VirtualBox details; disk `wazuh.vdi` 80 GB) |
 | Ubuntu endpoint | 2 GB | 1 | **Reported** |
 | Kali Linux | 3072 MB | 2 | **Verified** (VirtualBox details; disk `kali-linux-2025.4-virtualbox-amd64.vdi` 80 GB) |
 | Windows 11 | n/a (physical host) | n/a | — |

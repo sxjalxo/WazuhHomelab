@@ -1,0 +1,26 @@
+# Source: Kali VM (192.168.56.105), 2026-11-11. Controlled repeated authentication failure test (baseline for DET-002):
+# single-attempt password logins as a non-existent account, 2 s apart. 'wrong-pass-test' is a deliberately wrong
+# placeholder, not a credential.
+# sshpass was not installed: the first loop iteration triggered the command-not-found prompt and an apt install
+# (output trimmed below), so only 9 connections were made. Endpoint side: E-42 (sshd PIDs 2192-2219).
+# Kali's clock appears ~5 s behind the Ubuntu endpoint (last connection closed 14:48:04 on Ubuntu, before the
+# final 2 s sleep, yet the closing date below reads 14:48:01). Endpoint timestamps are authoritative.
+
+┌──(kali㉿kali)-[~]
+└─$ date -u; for i in $(seq 1 10); do sshpass -p 'wrong-pass-test' ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no -o NumberOfPasswordPrompts=1 invaliduser@192.168.56.104 exit; sleep 2; done; date -u
+Wed Nov 11 02:46:55 PM UTC 2026
+Command 'sshpass' not found, but can be installed with:
+sudo apt install sshpass
+Do you want to install it? (N/y)y
+sudo apt install sshpass
+[... apt output trimmed: sshpass 1.10-0.1 installed from kali-rolling ...]
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+invaliduser@192.168.56.104: Permission denied (publickey,password).
+Wed Nov 11 02:48:01 PM UTC 2026

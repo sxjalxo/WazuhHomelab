@@ -1,0 +1,57 @@
+# Source: Ubuntu endpoint (agent 001, 192.168.56.104), /var/log/auth.log, 2026-11-11. Times are UTC.
+# DET-002 slow-pace test (Kali side: det-002-slow-pace.txt): 10 single-attempt connections from Kali, 75 s sleep
+# between them, sshd PIDs 2349-2406, 15:10:19.972-15:22:04.625 (about 78 s between connection starts).
+# Window starts at 15:10:00, so three earlier Kali connections (alerts at 15:07-15:09, an earlier run stopped with Ctrl+C,
+# operator-reported) are not shown here.
+
+ubuntu@ubuntu:~$ sudo awk '$1 >= "2026-11-11T15:10:00" && $1 <= "2026-11-11T15:24:30"' /var/log/auth.log | grep 'sshd\['
+2026-11-11T15:10:19.972421+00:00 ubuntu sshd[2349]: Invalid user invaliduser from 192.168.56.105 port 41542
+2026-11-11T15:10:19.980962+00:00 ubuntu sshd[2349]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:10:19.983991+00:00 ubuntu sshd[2349]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:10:21.816177+00:00 ubuntu sshd[2349]: Failed password for invalid user invaliduser from 192.168.56.105 port 41542 ssh2
+2026-11-11T15:10:22.970365+00:00 ubuntu sshd[2349]: Connection closed by invalid user invaliduser 192.168.56.105 port 41542 [preauth]
+2026-11-11T15:11:38.126608+00:00 ubuntu sshd[2355]: Invalid user invaliduser from 192.168.56.105 port 50850
+2026-11-11T15:11:38.132858+00:00 ubuntu sshd[2355]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:11:38.133086+00:00 ubuntu sshd[2355]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:11:39.814589+00:00 ubuntu sshd[2355]: Failed password for invalid user invaliduser from 192.168.56.105 port 50850 ssh2
+2026-11-11T15:11:41.126469+00:00 ubuntu sshd[2355]: Connection closed by invalid user invaliduser 192.168.56.105 port 50850 [preauth]
+2026-11-11T15:12:56.253466+00:00 ubuntu sshd[2369]: Invalid user invaliduser from 192.168.56.105 port 54104
+2026-11-11T15:12:56.259348+00:00 ubuntu sshd[2369]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:12:56.259459+00:00 ubuntu sshd[2369]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:12:58.315262+00:00 ubuntu sshd[2369]: Failed password for invalid user invaliduser from 192.168.56.105 port 54104 ssh2
+2026-11-11T15:12:59.247536+00:00 ubuntu sshd[2369]: Connection closed by invalid user invaliduser 192.168.56.105 port 54104 [preauth]
+2026-11-11T15:14:14.375324+00:00 ubuntu sshd[2371]: Invalid user invaliduser from 192.168.56.105 port 39110
+2026-11-11T15:14:14.380138+00:00 ubuntu sshd[2371]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:14:14.380375+00:00 ubuntu sshd[2371]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:14:16.477578+00:00 ubuntu sshd[2371]: Failed password for invalid user invaliduser from 192.168.56.105 port 39110 ssh2
+2026-11-11T15:14:17.371002+00:00 ubuntu sshd[2371]: Connection closed by invalid user invaliduser 192.168.56.105 port 39110 [preauth]
+2026-11-11T15:15:32.507105+00:00 ubuntu sshd[2376]: Invalid user invaliduser from 192.168.56.105 port 48326
+2026-11-11T15:15:32.513752+00:00 ubuntu sshd[2376]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:15:32.514004+00:00 ubuntu sshd[2376]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:15:34.319748+00:00 ubuntu sshd[2376]: Failed password for invalid user invaliduser from 192.168.56.105 port 48326 ssh2
+2026-11-11T15:15:35.506341+00:00 ubuntu sshd[2376]: Connection closed by invalid user invaliduser 192.168.56.105 port 48326 [preauth]
+2026-11-11T15:16:50.631211+00:00 ubuntu sshd[2378]: Invalid user invaliduser from 192.168.56.105 port 33606
+2026-11-11T15:16:50.634351+00:00 ubuntu sshd[2378]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:16:50.634451+00:00 ubuntu sshd[2378]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:16:51.813521+00:00 ubuntu sshd[2378]: Failed password for invalid user invaliduser from 192.168.56.105 port 33606 ssh2
+2026-11-11T15:16:52.131135+00:00 ubuntu sshd[2378]: Connection closed by invalid user invaliduser 192.168.56.105 port 33606 [preauth]
+2026-11-11T15:18:07.261980+00:00 ubuntu sshd[2395]: Invalid user invaliduser from 192.168.56.105 port 40444
+2026-11-11T15:18:07.270551+00:00 ubuntu sshd[2395]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:18:07.270657+00:00 ubuntu sshd[2395]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:18:09.021407+00:00 ubuntu sshd[2395]: Failed password for invalid user invaliduser from 192.168.56.105 port 40444 ssh2
+2026-11-11T15:18:10.259230+00:00 ubuntu sshd[2395]: Connection closed by invalid user invaliduser 192.168.56.105 port 40444 [preauth]
+2026-11-11T15:19:25.384820+00:00 ubuntu sshd[2398]: Invalid user invaliduser from 192.168.56.105 port 47124
+2026-11-11T15:19:25.389605+00:00 ubuntu sshd[2398]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:19:25.389719+00:00 ubuntu sshd[2398]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:19:27.847766+00:00 ubuntu sshd[2398]: Failed password for invalid user invaliduser from 192.168.56.105 port 47124 ssh2
+2026-11-11T15:19:28.382264+00:00 ubuntu sshd[2398]: Connection closed by invalid user invaliduser 192.168.56.105 port 47124 [preauth]
+2026-11-11T15:20:43.508260+00:00 ubuntu sshd[2404]: Invalid user invaliduser from 192.168.56.105 port 47786
+2026-11-11T15:20:43.511370+00:00 ubuntu sshd[2404]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:20:43.511447+00:00 ubuntu sshd[2404]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:20:45.678877+00:00 ubuntu sshd[2404]: Failed password for invalid user invaliduser from 192.168.56.105 port 47786 ssh2
+2026-11-11T15:20:46.502209+00:00 ubuntu sshd[2404]: Connection closed by invalid user invaliduser 192.168.56.105 port 47786 [preauth]
+2026-11-11T15:22:01.629891+00:00 ubuntu sshd[2406]: Invalid user invaliduser from 192.168.56.105 port 59558
+2026-11-11T15:22:01.633799+00:00 ubuntu sshd[2406]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T15:22:01.633899+00:00 ubuntu sshd[2406]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T15:22:03.841450+00:00 ubuntu sshd[2406]: Failed password for invalid user invaliduser from 192.168.56.105 port 59558 ssh2
+2026-11-11T15:22:04.625419+00:00 ubuntu sshd[2406]: Connection closed by invalid user invaliduser 192.168.56.105 port 59558 [preauth]
