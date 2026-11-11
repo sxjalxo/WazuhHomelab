@@ -64,7 +64,8 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | TS-01: manager TCP 1514 listener failure (stale PID files) diagnosed, root-caused and recovered | **Root cause Verified**: an unclean shutdown left stale PID files; at the next boot the start script's PID-only check skipped `wazuh-remoted` *and* `wazuh-syscheckd` for ~23½ min. Only the holder of PID 1245 (`wazuh-db`) is **Reported** | `wazuh-control` + journal, `ossec.log`, `ss -lntp` |
 | TS-03: scoped Windows firewall rule allowing ICMP echo from the lab subnet | Result **Verified** (Kali ping 3/3); rule definition **Reported** | `connectivity-checks.txt`; rule export not yet stored |
 | Kali reachability of manager ports 443 / 1514 / 1515 | **Verified** | `connectivity-checks.txt` |
-| DET-001: custom decoder adds `data.srcip` to rule 2502 (sshd PAM summary) | **Verified** (v1 end to end; v2 file, logtest and regression). Open finding: a two-failure session's summary line falls to level-0 rule 5711 and raises no alert; needs a rule | [`detections/DET-001.md`](detections/DET-001.md), E-28–E-35 |
+| DET-001: custom decoder adds `data.srcip` to rule 2502 (sshd PAM summary) | **Verified** (v1 end to end; v2 file, logtest and regression). The two-failure gap it exposed is handled by DET-003 | [`detections/DET-001.md`](detections/DET-001.md), E-28–E-36 |
+| DET-003: custom rule 100100 alerts on SSH sessions with exactly two failed passwords (singular PAM summary, which built-in rules drop at level 0) | **Verified** end to end: gap confirmed live, `wazuh-logtest` with regression, live alert with `data.srcip` | [`detections/DET-003.md`](detections/DET-003.md), E-37–E-40 |
 | Custom Wazuh rules | Not started (`etc/rules` user ruleset path is configured) | Manager `ossec.conf` |
 | Custom Sysmon configuration | Not started: default config, no rules installed | `Sysmon64.exe -c` |
 | Windows attack simulations | Not started | — |
@@ -79,6 +80,7 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | [docs/attack-simulations/INC-001-ssh-authentication-failure.md](docs/attack-simulations/INC-001-ssh-authentication-failure.md) | Controlled invalid-user SSH test, timeline, alert and MITRE analysis |
 | [docs/troubleshooting.md](docs/troubleshooting.md) | TCP 1514 listener / stale PID recovery and other issues |
 | [detections/DET-001.md](detections/DET-001.md) | Custom decoder extracting the source IP for rule 2502, before/after evidence, regression plan, limitations |
+| [detections/DET-003.md](detections/DET-003.md) | Custom rule for two-failure SSH sessions: live gap evidence, root cause from the rule source, tests, limitations |
 | [docs/roadmap.md](docs/roadmap.md) | Implemented vs planned work |
 | [docs/evidence-index.md](docs/evidence-index.md) | Every evidence file, what it proves, and what is still missing |
 
@@ -97,8 +99,10 @@ SOC-Detection-Engineering-Lab/
 │       └── INC-001-ssh-authentication-failure.md
 ├── detections/
 │   ├── DET-001.md
+│   ├── DET-003.md
 │   └── rules/
-│       └── local_decoder.xml   # deployed to /var/ossec/etc/decoders/
+│       ├── local_decoder.xml   # deployed to /var/ossec/etc/decoders/
+│       └── local_rules.xml     # deployed to /var/ossec/etc/rules/
 └── evidence/
     ├── wazuh/      # server status, manager ossec.conf, dashboard screenshots, raw alerts
     ├── windows/    # agent ossec.conf, MSI install excerpt, Sysmon captures

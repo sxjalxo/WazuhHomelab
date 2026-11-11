@@ -1,0 +1,66 @@
+{
+  "_index": "wazuh-alerts-4.x-2026.11.11",
+  "_id": "qAThyqEBXGMksfvm56mW",
+  "_score": null,
+  "_source": {
+    "predecoder": {
+      "hostname": "ubuntu",
+      "program_name": "sshd",
+      "timestamp": "Nov 11 13:52:41"
+    },
+    "input": {
+      "type": "log"
+    },
+    "agent": {
+      "ip": "192.168.56.104",
+      "name": "ubuntu",
+      "id": "001"
+    },
+    "manager": {
+      "name": "wazuh"
+    },
+    "data": {
+      "srcip": "192.168.56.105"
+    },
+    "rule": {
+      "firedtimes": 1,
+      "mail": false,
+      "level": 5,
+      "description": "sshd: two failed passwords in one session (PAM summary)",
+      "groups": [
+        "local",
+        "syslog",
+        "sshd",
+        "authentication_failed"
+      ],
+      "mitre": {
+        "technique": [
+          "Password Guessing"
+        ],
+        "id": [
+          "T1110.001"
+        ],
+        "tactic": [
+          "Credential Access"
+        ]
+      },
+      "id": "100100"
+    },
+    "location": "journald",
+    "decoder": {
+      "parent": "sshd",
+      "name": "sshd"
+    },
+    "id": "1794405162.1117067",
+    "full_log": "Nov 11 13:52:41 ubuntu sshd[1964]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105",
+    "timestamp": "2026-11-11T13:52:42.711+0000"
+  },
+  "fields": {
+    "timestamp": [
+      "2026-11-11T13:52:42.711Z"
+    ]
+  },
+  "sort": [
+    1794405162711
+  ]
+}

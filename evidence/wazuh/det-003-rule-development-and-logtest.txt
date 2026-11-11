@@ -1,0 +1,207 @@
+# Source: Wazuh server (192.168.56.103), 2026-11-11, ~10:24-10:30 UTC. Times are UTC.
+# Steps in the order typed. The nano edit itself was not captured; section 8 prints the deployed file afterwards. DET-001 decoder v2 is in place.
+# Logtest inputs: lines 1-2 synthetic (timestamp "Nov 10 00:00:00", PIDs 3001/3002); line 3 is the real
+# 19:02:43 line from sshd PID 2722 (DET-001 E-33).
+
+## 1. local_rules.xml before the change (stock example only)
+
+wazuh@wazuh:~$ sudo cat /var/ossec/etc/rules/local_rules.xml
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+
+## 2. Stock rule definitions
+
+wazuh@wazuh:~$ sudo grep -n -B2 -A8 'id="5711"' /var/ossec/ruleset/rules/0095-sshd_rules.xml
+98-  </rule>
+99-
+100:  <rule id="5711" level="0">
+101-    <if_sid>5700</if_sid>
+102-    <match>authentication failure; logname= uid=0 euid=0 tty=ssh|</match>
+103-    <match>input_userauth_request: invalid user|</match>
+104-    <match>PAM: User not known to the underlying authentication module for illegal user|</match>
+105-    <match>error retrieving information about user</match>
+106-    <description>sshd: Useless/Duplicated SSHD message without a user/ip.</description>
+107-  </rule>
+108-
+wazuh@wazuh:~$ sudo grep -rn -A8 'id="2502"' /var/ossec/ruleset/rules/
+/var/ossec/ruleset/rules/0020-syslog_rules.xml:152:  <rule id="2502" level="10">
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-153-    <match>more authentication failures;|REPEATED login failures</match>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-154-    <description>syslog: User missed the password more than one time</description>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-155-    <mitre>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-156-      <id>T1110</id>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-157-    </mitre>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-158-    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,gpg13_7.8,gdpr_IV_35.7.d,gdpr_IV_32.2,hipaa_164.312.b,nist_800_53_AU.14,nist_800_53_AC.7,tsc_CC6.1,tsc_CC6.8,tsc_CC7.2,tsc_CC7.3,</group>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-159-  </rule>
+/var/ossec/ruleset/rules/0020-syslog_rules.xml-160-
+
+## 3. Backup, edit, configuration test
+
+wazuh@wazuh:~$ sudo cp /var/ossec/etc/rules/local_rules.xml /var/ossec/etc/rules/local_rules.xml.bak-$(date +%F)
+wazuh@wazuh:~$ sudo nano /var/ossec/etc/rules/local_rules.xml
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-analysisd -t
+2026/11/11 10:26:40 wazuh-analysisd: INFO: Rule tree threshold 'analysisd.rule_tree_memory_warning' set to 65054752 nodes: 25% of 7941 MiB of physical memory, 32 bytes per node.
+
+## 4. Positive test: singular summary line -> rule 100100
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3001]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        srcip: '192.168.56.105'
+
+**Phase 3: Completed filtering (rules).
+        id: '100100'
+        level: '5'
+        description: 'sshd: two failed passwords in one session (PAM summary)'
+        groups: '['local', 'syslog', 'sshd', 'authentication_failed']'
+        firedtimes: '1'
+        mail: 'False'
+        mitre.id: '['T1110.001']'
+        mitre.tactic: '['Credential Access']'
+        mitre.technique: '['Password Guessing']'
+**Alert to be generated.
+
+## 5. Regression: plural summary line, non-existent account -> 2502 unchanged
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 10 00:00:00 ubuntu sshd[3002]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 10 00:00:00 ubuntu sshd[3002]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105'
+        timestamp: 'Nov 10 00:00:00'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        srcip: '192.168.56.105'
+
+**Phase 3: Completed filtering (rules).
+        id: '2502'
+        level: '10'
+        description: 'syslog: User missed the password more than one time'
+        groups: '['syslog', 'access_control', 'authentication_failed']'
+        firedtimes: '1'
+        gdpr: '['IV_35.7.d', 'IV_32.2']'
+        gpg13: '['7.8']'
+        hipaa: '['164.312.b']'
+        mail: 'False'
+        mitre.id: '['T1110']'
+        mitre.tactic: '['Credential Access']'
+        mitre.technique: '['Brute Force']'
+        nist_800_53: '['AU.14', 'AC.7']'
+        pci_dss: '['10.2.4', '10.2.5']'
+        tsc: '['CC6.1', 'CC6.8', 'CC7.2', 'CC7.3']'
+**Alert to be generated.
+
+## 6. Regression: plural summary line, real account -> 2502 unchanged (stock decoder, dstuser)
+
+wazuh@wazuh:~$ sudo /var/ossec/bin/wazuh-logtest
+Starting wazuh-logtest v4.14.10
+Type one log per line
+
+Nov 09 19:02:43 ubuntu sshd[2722]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105  user=ubuntu
+
+**Phase 1: Completed pre-decoding.
+        full event: 'Nov 09 19:02:43 ubuntu sshd[2722]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105  user=ubuntu'
+        timestamp: 'Nov 09 19:02:43'
+        hostname: 'ubuntu'
+        program_name: 'sshd'
+
+**Phase 2: Completed decoding.
+        name: 'sshd'
+        parent: 'sshd'
+        dstuser: 'ubuntu'
+        srcip: '192.168.56.105'
+
+**Phase 3: Completed filtering (rules).
+        id: '2502'
+        level: '10'
+        description: 'syslog: User missed the password more than one time'
+        groups: '['syslog', 'access_control', 'authentication_failed']'
+        firedtimes: '1'
+        gdpr: '['IV_35.7.d', 'IV_32.2']'
+        gpg13: '['7.8']'
+        hipaa: '['164.312.b']'
+        mail: 'False'
+        mitre.id: '['T1110']'
+        mitre.tactic: '['Credential Access']'
+        mitre.technique: '['Brute Force']'
+        nist_800_53: '['AU.14', 'AC.7']'
+        pci_dss: '['10.2.4', '10.2.5']'
+        tsc: '['CC6.1', 'CC6.8', 'CC7.2', 'CC7.3']'
+**Alert to be generated.
+
+## 7. Restart and listener check (systemctl status not captured)
+
+wazuh@wazuh:~$ sudo systemctl restart wazuh-manager
+wazuh@wazuh:~$ sudo ss -lntp | grep ':1514'
+LISTEN 0      128               0.0.0.0:1514       0.0.0.0:*    users:(("wazuh-remoted",pid=5305,fd=4))
+
+## 8. Deployed local_rules.xml, printed after the live validation (~13:55 UTC)
+
+wazuh@wazuh:~$ sudo cat /var/ossec/etc/rules/local_rules.xml
+<!-- Local rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!-- Example -->
+<group name="local,syslog,sshd,">
+
+  <!--
+  Dec 10 01:02:02 host sshd[1234]: Failed none for root from 1.1.1.1 port 1066 ssh2
+  -->
+  <rule id="100001" level="5">
+    <if_sid>5716</if_sid>
+    <srcip>1.1.1.1</srcip>
+    <description>sshd: authentication failed from IP 1.1.1.1.</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
+<group name="local,syslog,sshd,">
+  <!-- DET-003: sshd PAM summary after exactly two failed passwords.
+       Built-in 2502 only matches the plural wording; this line falls to 5711 (level 0). -->
+  <rule id="100100" level="5">
+    <if_sid>5711</if_sid>
+    <match>PAM 1 more authentication failure;</match>
+    <description>sshd: two failed passwords in one session (PAM summary)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failed,</group>
+  </rule>
+</group>

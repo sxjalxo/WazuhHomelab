@@ -1,0 +1,22 @@
+<!--
+  DET-003: alert on sshd's PAM summary line after exactly two failed passwords.
+  Deployed on the Wazuh manager at /var/ossec/etc/rules/local_rules.xml, after Wazuh's
+  stock example group (rule 100001).
+  Built-in 2502 matches only "more authentication failures;" (plural). The singular line
+  "PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ..." matches 5711
+  (level 0, no alert) instead. This rule is a child of 5711 and catches only that line.
+  srcip comes from the DET-001 decoder (local_decoder.xml).
+  Documentation: ../DET-003.md
+-->
+
+<group name="local,syslog,sshd,">
+  <rule id="100100" level="5">
+    <if_sid>5711</if_sid>
+    <match>PAM 1 more authentication failure;</match>
+    <description>sshd: two failed passwords in one session (PAM summary)</description>
+    <mitre>
+      <id>T1110.001</id>
+    </mitre>
+    <group>authentication_failed,</group>
+  </rule>
+</group>

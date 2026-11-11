@@ -1,0 +1,34 @@
+# Source: Ubuntu endpoint (agent 001, 192.168.56.104), /var/log/auth.log, captured 2026-11-11. Times are UTC.
+# sshd[693]: service start at boot. sshd[2084]: operator's admin session from the Windows host (192.168.56.1),
+# not part of the test. sshd[2566]: the two-attempt test from Kali (E-37).
+
+## 1. Gap confirmation (before rule 100100)
+
+ubuntu@ubuntu:~$ sudo grep 'sshd\[' /var/log/auth.log | tail -12
+2026-11-11T08:31:42.228891+00:00 ubuntu sshd[693]: Server listening on 0.0.0.0 port 22.
+2026-11-11T08:31:42.235329+00:00 ubuntu sshd[693]: Server listening on :: port 22.
+2026-11-11T08:50:17.622360+00:00 ubuntu sshd[2084]: Accepted password for ubuntu from 192.168.56.1 port 51099 ssh2
+2026-11-11T08:50:17.628133+00:00 ubuntu sshd[2084]: pam_unix(sshd:session): session opened for user ubuntu(uid=1000) by ubuntu(uid=0)
+2026-11-11T10:23:01.942130+00:00 ubuntu sshd[2566]: Invalid user invaliduser from 192.168.56.105 port 52958
+2026-11-11T10:23:07.604405+00:00 ubuntu sshd[2566]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T10:23:07.604736+00:00 ubuntu sshd[2566]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T10:23:09.452917+00:00 ubuntu sshd[2566]: Failed password for invalid user invaliduser from 192.168.56.105 port 52958 ssh2
+2026-11-11T10:23:13.099615+00:00 ubuntu sshd[2566]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T10:23:15.439426+00:00 ubuntu sshd[2566]: Failed password for invalid user invaliduser from 192.168.56.105 port 52958 ssh2
+2026-11-11T10:23:17.563599+00:00 ubuntu sshd[2566]: Connection closed by invalid user invaliduser 192.168.56.105 port 52958 [preauth]
+2026-11-11T10:23:17.563742+00:00 ubuntu sshd[2566]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+
+## 2. Live validation (after rule 100100), captured 2026-11-11 ~13:53 UTC
+# sshd[1530]: operator's admin session from the Windows host, not part of the test. sshd[1964]: the test.
+
+ubuntu@ubuntu:~$ sudo grep 'sshd\[' /var/log/auth.log | tail -10
+2026-11-11T13:49:46.783048+00:00 ubuntu sshd[1530]: Accepted password for ubuntu from 192.168.56.1 port 50533 ssh2
+2026-11-11T13:49:46.792041+00:00 ubuntu sshd[1530]: pam_unix(sshd:session): session opened for user ubuntu(uid=1000) by ubuntu(uid=0)
+2026-11-11T13:52:27.997006+00:00 ubuntu sshd[1964]: Invalid user invaliduser from 192.168.56.105 port 54608
+2026-11-11T13:52:31.401618+00:00 ubuntu sshd[1964]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T13:52:31.401924+00:00 ubuntu sshd[1964]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105
+2026-11-11T13:52:33.067657+00:00 ubuntu sshd[1964]: Failed password for invalid user invaliduser from 192.168.56.105 port 54608 ssh2
+2026-11-11T13:52:37.413366+00:00 ubuntu sshd[1964]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T13:52:39.570151+00:00 ubuntu sshd[1964]: Failed password for invalid user invaliduser from 192.168.56.105 port 54608 ssh2
+2026-11-11T13:52:41.009763+00:00 ubuntu sshd[1964]: Connection closed by invalid user invaliduser 192.168.56.105 port 54608 [preauth]
+2026-11-11T13:52:41.009910+00:00 ubuntu sshd[1964]: PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=192.168.56.105

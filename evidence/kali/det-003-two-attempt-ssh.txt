@@ -1,0 +1,31 @@
+# Source: Kali VM (192.168.56.105), 2026-11-11, two runs (terminal shows no timestamps).
+# Two wrong passwords for a non-existent account, then the client was closed with Ctrl+C at the third
+# prompt (the blank line after the third prompt). Endpoint side: E-38 (sshd PID 2566, then PID 1964).
+# Section 1 ran before rule 100100 was added (config test 10:26:40 UTC); section 2 is the live validation
+# run after the rule was deployed (endpoint sshd PID 1964, E-38 section 2; alert E-40).
+
+## 1. Gap confirmation, ~10:23 UTC
+
+┌──(kali㉿kali)-[~]
+└─$ ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no invaliduser@192.168.56.104
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+Permission denied, please try again.
+invaliduser@192.168.56.104's password:
+
+┌──(kali㉿kali)-[~]
+└─$
+
+## 2. Live validation after rule 100100, ~13:52 UTC (terminal shows no timestamps)
+
+┌──(kali㉿kali)-[~]
+└─$ ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no invaliduser@192.168.56.104
+invaliduser@192.168.56.104's password: 
+Permission denied, please try again.
+invaliduser@192.168.56.104's password: 
+Permission denied, please try again.
+invaliduser@192.168.56.104's password: 
+
+┌──(kali㉿kali)-[~]
+└─$ 
