@@ -4,7 +4,7 @@ Issues found during the build, how each was investigated, and how it was resolve
 
 ## TS-01: Wazuh manager not listening on TCP 1514
 
-**Status: root cause verified.** An unclean VM shutdown left stale PID files. At the next boot, the start script mistook unrelated live processes for `wazuh-remoted` and `wazuh-syscheckd` and skipped starting both. The manager ran for ~24 minutes without its agent listener or its file-integrity monitor, and nothing alerted.
+**Status: root cause verified.** An unclean VM shutdown left stale PID files. At the next boot, the start script mistook unrelated live processes for `wazuh-remoted` and `wazuh-syscheckd` and skipped starting both. The manager ran for ~24 minutes (09:57:26–10:21:04 UTC) without its agent listener or its file-integrity monitor, and nothing alerted.
 
 ### Summary timeline (UTC)
 
@@ -124,12 +124,12 @@ sudo systemctl start wazuh-manager
 | 3 | At the 11-09 09:57 boot, PIDs 1245 and 1230 were held by processes started moments earlier (1245 by `wazuh-db` per the operator) | Live PIDs **Verified** (script output); holder of 1245 **Reported** |
 | 4 | `pstatus()` treats any live PID as "daemon running" | **Verified** (installed script) |
 | 5 | `wazuh-remoted` and `wazuh-syscheckd` reported "already running" and were not started | **Verified** (journal; no start in `ossec.log`) |
-| 6 | Port 1514 closed ~23½ min (09:57:26–10:21:04) and agents forced into re-enrollment | **Verified** (`ossec.log`; open/closed state **Reported**) |
+| 6 | Port 1514 closed ~24 min (09:57:26–10:21:04) and agents forced into re-enrollment | **Verified** (`ossec.log`; open/closed state **Reported**) |
 | 7 | `stop` freed the PIDs, the script removed the stale files, and `start` succeeded | **Verified** |
 
 ### Impact
 
-- **No agent telemetry reached the manager for ~23½ minutes.** Agents could not hold a session on 1514. Whether their local buffers retained and later delivered those events was not evaluated.
+- **No agent telemetry reached the manager for ~24 minutes.** Agents could not hold a session on 1514. Whether their local buffers retained and later delivered those events was not evaluated.
 - **File-integrity monitoring on the Wazuh server was off for the same period.** `wazuh-syscheckd` was skipped too. Nothing reported it. This was only found in the journal during this write-up.
 - **The SIEM did not alert on its own failure.** The only traces were a line in the systemd journal and `wazuh-authd` duplicate-enrollment warnings in `ossec.log`.
 
