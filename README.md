@@ -50,6 +50,18 @@ Full details: [docs/architecture.md](docs/architecture.md).
 | OpenSSH on Ubuntu endpoint | `OpenSSH 9.6p1 Ubuntu 3ubuntu13.20` | **Verified** (Nmap) |
 | Nmap on Kali | Banner reads `7.991` | **Verified** as captured; see [evidence index](docs/evidence-index.md) |
 
+### Shell work
+
+The lab has no standalone shell scripts. All work was done interactively in Bash on the three VMs, and each command appears in the evidence next to its output:
+
+| Task | Example | Evidence |
+|---|---|---|
+| Controlled test traffic | `for` loop with `sshpass`, `sleep` and `date -u` timestamps (fast burst and slow pace) | [burst](evidence/kali/det-002-baseline-burst.txt), [slow pace](evidence/kali/det-002-slow-pace.txt), [live validation](evidence/kali/det-002-live-validation.txt) |
+| Log triage on the endpoint | `awk` time-window filters and `grep -B/-A` context over `auth.log` | [DET-002 endpoint log](evidence/ubuntu/det-002-slow-pace-auth-log.txt), [DET-001 endpoint log](evidence/ubuntu/det-001-auth-log.txt) |
+| Root-cause analysis | `journalctl -u wazuh-manager` + `grep`; `grep -A25 'pstatus()'` in the installed `wazuh-control` script | [TS-01 journal and script](evidence/wazuh/wazuh-control-pstatus-and-journal.txt) |
+| Rule testing | `wazuh-logtest` fed by a heredoc and filtered with `grep -E`, so many events share one correlation session | [40111 test](evidence/wazuh/det-002-40111-logtest.txt), [DET-002 logtest](evidence/wazuh/det-002-rule-development-and-logtest.txt) |
+| Change control | `cp` backups before edits, `wazuh-analysisd -t`, `systemctl restart`, `ss -lntp \| grep :1514` | [DET-003 deployment](evidence/wazuh/det-003-rule-development-and-logtest.txt) |
+
 ## Current implementation status
 
 | Capability | Status | Evidence |
